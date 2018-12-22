@@ -33,8 +33,6 @@ Programming Languages:
 - [Go](https://golang.org/)
 - [Haskell](https://www.haskell.org/)
 
-Note: this list is incomplete as of writing and more software will be added.
-
 ## Prerequisites
 
 - A host machine running on Windows.

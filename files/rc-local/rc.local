@@ -4,10 +4,24 @@ declare -r VAGRANT_HOME=$(eval echo "~vagrant")
 declare -r VAGRANT_UID=$(id -u vagrant)
 declare -r VBOXSF_GID=$(getent group vboxsf | cut -d: -f3)
 
-sudo umount ${VAGRANT_HOME}/Projects 2>/dev/null || true
-sudo umount ${VAGRANT_HOME}/vagrant-files 2>/dev/null || true
-sudo umount ${VAGRANT_HOME}/vagrant-scripts 2>/dev/null || true
+# unmount existing shared folders
+
+umount ${VAGRANT_HOME}/Projects 2>/dev/null || true
+umount ${VAGRANT_HOME}/vagrant-files 2>/dev/null || true
+umount ${VAGRANT_HOME}/vagrant-scripts 2>/dev/null || true
+
+# mount shared folders with correct permissions
 
 mount -t vboxsf -o uid=${VAGRANT_UID},gid=${VBOXSF_GID} Projects ${VAGRANT_HOME}/Projects
 mount -t vboxsf -o uid=${VAGRANT_UID},gid=${VBOXSF_GID} vagrant-files ${VAGRANT_HOME}/vagrant-files
 mount -t vboxsf -o uid=${VAGRANT_UID},gid=${VBOXSF_GID} vagrant-scripts ${VAGRANT_HOME}/vagrant-scripts
+
+# unmount and remove any duplicated shared folders in home directory if they still exist
+
+umount ${VAGRANT_HOME}/Projects_1 2>/dev/null || true
+umount ${VAGRANT_HOME}/vagrant-files_1 2>/dev/null || true
+umount ${VAGRANT_HOME}/vagrant-scripts_1 2>/dev/null || true
+
+rm -rf ${VAGRANT_HOME}/Projects_1
+rm -rf ${VAGRANT_HOME}/vagrant-files_1
+rm -rf ${VAGRANT_HOME}/vagrant-scripts_1

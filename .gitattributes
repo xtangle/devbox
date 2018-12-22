@@ -1,5 +1,7 @@
 # These files are text and should be normalized (convert crlf =&gt; lf)
-* text=auto eol=lf
+*         text=auto eol=lf
 
-# These files should be treated as binary
-# (binary is a macro for -text -diff)
+# These files should be treated as binary (binary is a macro for -text -diff)
+
+# Exclude the following from Github's language analysis
+files/*   linguist-vendored
