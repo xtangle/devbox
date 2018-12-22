@@ -1,0 +1,9 @@
+.idea/
+
+*.retry
+*.log
+.vagrant/
+bin/
+logs/
+
+.vm-config.yaml

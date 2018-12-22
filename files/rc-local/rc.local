@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+declare -r VAGRANT_HOME=$(eval echo "~vagrant")
+declare -r VAGRANT_UID=$(id -u vagrant)
+declare -r VBOXSF_GID=$(getent group vboxsf | cut -d: -f3)
+
+sudo umount ${VAGRANT_HOME}/Projects 2>/dev/null || true
+sudo umount ${VAGRANT_HOME}/vagrant-files 2>/dev/null || true
+sudo umount ${VAGRANT_HOME}/vagrant-scripts 2>/dev/null || true
+
+mount -t vboxsf -o uid=${VAGRANT_UID},gid=${VBOXSF_GID} Projects ${VAGRANT_HOME}/Projects
+mount -t vboxsf -o uid=${VAGRANT_UID},gid=${VBOXSF_GID} vagrant-files ${VAGRANT_HOME}/vagrant-files
+mount -t vboxsf -o uid=${VAGRANT_UID},gid=${VBOXSF_GID} vagrant-scripts ${VAGRANT_HOME}/vagrant-scripts
