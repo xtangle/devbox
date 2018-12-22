@@ -1,9 +1,9 @@
 # devbox
 
-This repository contains the Vagrant configuration to set up my development Virtual Machine, provisioned with VirtualBox.
+This repository contains the Vagrant configuration to set up a local Ubuntu-based development Virtual Machine.
 The guest machine runs on [Ubuntu 18.04.1 LTS (Bionic Beaver)](http://releases.ubuntu.com/18.04.1/) with a core minimal
 [Lubuntu](https://lubuntu.net/) desktop environment. It uses the official [ubuntu/bionic64](https://app.vagrantup.com/ubuntu/boxes/bionic64) box 
-from Ubuntu Cloud Images as the base box.
+from Ubuntu Cloud Images as the base image.
 
 ## What's Installed?
 
