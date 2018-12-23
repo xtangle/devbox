@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "private_network", ip: "192.168.33.10"
   config.vm.network "public_network"
   config.ssh.forward_agent = true
-  config.disksize.size = vm_config.disk_space
+  config.disksize.size = "#{vm_config.disk_space}GB"
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = true
@@ -59,7 +59,7 @@ Vagrant.configure("2") do |config|
 
   config.trigger.after :up do |trigger|
     trigger.ruby do
-      VBoxManage::set_resolution vm_config.vm_name
+      VBoxManage::configure_resolution vm_config
       exec "vagrant reload --no-provision --provision-with logout"
     end
   end

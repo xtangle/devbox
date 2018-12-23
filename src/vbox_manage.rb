@@ -18,11 +18,8 @@ module VBoxManage
     end
   end
 
-  def self.set_resolution(machine)
-    description = `wmic path Win32_VideoController get VideoModeDescription`
-    width, height, num_colors = description.match(/(\d+) x (\d+) x (\d+)/).captures
-    color_depth = Math.log2(num_colors.to_i).to_i
-    system("\"#{VBOX_MANAGE_CMD}\" controlvm #{machine} setevideomodehint #{width} #{height} #{color_depth} >nul 2>&1")
+  def self.configure_resolution(vm_config)
+    system("\"#{VBOX_MANAGE_CMD}\" controlvm #{vm_config.vm_name} setevideomodehint #{vm_config.display_width} #{vm_config.display_height} #{vm_config.display_color_depth} >nul 2>&1")
   end
 
   private

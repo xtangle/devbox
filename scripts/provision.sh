@@ -12,9 +12,11 @@ reset_results_file
 run configure-mounts.sh
 run configure-system.sh
 run configure-desktop.sh
+run configure-panels.sh
 run configure-screensaver.sh
 run configure-autologin.sh
 run configure-pcmanfm.sh
+run configure-scaling.sh
 
 run install-java.sh
 run install-maven.sh

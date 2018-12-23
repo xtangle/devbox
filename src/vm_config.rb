@@ -35,33 +35,48 @@ module VMConfig
     print "#{question} #{default_text.empty? ? '' : "(default: #{default_text}): "}"
     $stdin.flush
     $stdout.flush
-    result = $stdin.gets.chomp
-    result.empty? ? default : result
+    response = $stdin.gets.chomp
+    response.empty? ? default : response
   end
   private_class_method :ask
+
+  def self.yesno(question, default = '', default_text = default)
+    response = ask(question, default, default_text)
+    response.start_with?('y')
+  end
 
   def self.host_timezone
     offset = (Time.zone_offset(Time.now.zone) / 60) / 60
     timezone_suffix = "#{offset >= 0 ? "-" : "+"}#{offset.abs}"
-    'GMT' + timezone_suffix
+    "GMT#{timezone_suffix}"
   end
   private_class_method :host_timezone
 
+  def self.host_display_info
+    description = `wmic path Win32_VideoController get VideoModeDescription`
+    width, height, num_colors = description.match(/(\d+) x (\d+) x (\d+)/).captures
+    color_depth = Math.log2(num_colors.to_i)
+    [width, height, color_depth].map(&:to_i)
+  end
+  private_class_method :host_display_info
+
   def self.get_config_from_user
     vm_name = ask('What is the name of this VM?', 'devbox')
-    base_memory = ask('What is the base machine memory in MB?', '8192')
-    disk_space = "#{ask('What is the virtual hard drive size in GB?', '50')}GB"
-    processors = ask('What is the number of processors?', '2')
-    video_memory = ask('What is the video memory in MB?', '128')
-    monitor_count = ask('What is the number of monitors?', '1')
+    base_memory = ask('What is the base machine memory in MB?', '8192').to_i
+    disk_space = ask('What is the virtual hard drive size in GB?', '50').to_i
+    processors = ask('What is the number of processors?', '4').to_i
+    video_memory = ask('What is the video memory in MB?', '128').to_i
+    monitor_count = ask('What is the number of monitors?', '1').to_i
     timezone = ask('What is the timezone as GMT offset?', host_timezone)
     user_provision_script = ask('What is the path to the user provision script?', nil, 'none')
+    display_width, display_height, display_color_depth = host_display_info
 
     unless user_provision_script.nil? || File.file?(user_provision_script)
       abort("Error: user provision script not found at '#{user_provision_script}'")
     end
 
-    Config.new(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, user_provision_script)
+    Config.new(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, user_provision_script,
+               display_width, display_height, display_color_depth)
   end
   private_class_method :get_config_from_user
 
@@ -98,8 +113,12 @@ module VMConfig
     attr_reader :monitor_count
     attr_reader :timezone
     attr_reader :user_provision_script
+    attr_reader :display_width
+    attr_reader :display_height
+    attr_reader :display_color_depth
 
-    def initialize(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, user_provision_script)
+    def initialize(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, user_provision_script,
+                   display_width, display_height, display_color_depth)
       @serial_version_id = nil
       @vm_name = vm_name
       @base_memory = base_memory
@@ -109,6 +128,9 @@ module VMConfig
       @monitor_count = monitor_count
       @timezone = timezone
       @user_provision_script = user_provision_script
+      @display_width = display_width
+      @display_height = display_height
+      @display_color_depth = display_color_depth
 
       self.initialize_serial_version_id
     end
