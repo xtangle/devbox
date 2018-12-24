@@ -36,5 +36,6 @@ run install-chrome.sh
 run install-sublime.sh
 run install-intellij.sh
 run install-vscode.sh
+run install-misc.sh
 
 print_results
