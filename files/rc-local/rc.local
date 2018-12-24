@@ -1,27 +1,35 @@
 #!/usr/bin/env bash
 
-declare -r VAGRANT_HOME=$(eval echo "~vagrant")
-declare -r VAGRANT_UID=$(id -u vagrant)
-declare -r VBOXSF_GID=$(getent group vboxsf | cut -d: -f3)
+function initialize_shared_folders {
+  local vagrant_home=$(eval echo "~vagrant")
+  local vagrant_uid=$(id -u vagrant)
+  local vboxsf_gid=$(getent group vboxsf | cut -d: -f3)
 
-# unmount existing shared folders
+  # wait for shared folders to be mounted
 
-umount ${VAGRANT_HOME}/Projects 2>/dev/null || true
-umount ${VAGRANT_HOME}/vagrant-files 2>/dev/null || true
-umount ${VAGRANT_HOME}/vagrant-scripts 2>/dev/null || true
+  sleep 10
 
-# mount shared folders with correct permissions
+  # unmount existing shared folders
 
-mount -t vboxsf -o uid=${VAGRANT_UID},gid=${VBOXSF_GID} Projects ${VAGRANT_HOME}/Projects
-mount -t vboxsf -o uid=${VAGRANT_UID},gid=${VBOXSF_GID} vagrant-files ${VAGRANT_HOME}/vagrant-files
-mount -t vboxsf -o uid=${VAGRANT_UID},gid=${VBOXSF_GID} vagrant-scripts ${VAGRANT_HOME}/vagrant-scripts
+  umount ${vagrant_home}/Projects 2>/dev/null || true
+  umount ${vagrant_home}/vagrant-files 2>/dev/null || true
+  umount ${vagrant_home}/vagrant-scripts 2>/dev/null || true
 
-# unmount and remove any duplicated shared folders in home directory if they still exist
+  # mount shared folders with correct permissions
 
-umount ${VAGRANT_HOME}/Projects_1 2>/dev/null || true
-umount ${VAGRANT_HOME}/vagrant-files_1 2>/dev/null || true
-umount ${VAGRANT_HOME}/vagrant-scripts_1 2>/dev/null || true
+  mount -t vboxsf -o uid=${vagrant_uid},gid=${vboxsf_gid} Projects ${vagrant_home}/Projects
+  mount -t vboxsf -o uid=${vagrant_uid},gid=${vboxsf_gid} vagrant-files ${vagrant_home}/vagrant-files
+  mount -t vboxsf -o uid=${vagrant_uid},gid=${vboxsf_gid} vagrant-scripts ${vagrant_home}/vagrant-scripts
 
-rm -rf ${VAGRANT_HOME}/Projects_1
-rm -rf ${VAGRANT_HOME}/vagrant-files_1
-rm -rf ${VAGRANT_HOME}/vagrant-scripts_1
+  # unmount and remove any duplicated shared folders in home directory if they still exist
+
+  umount ${vagrant_home}/Projects_1 2>/dev/null || true
+  umount ${vagrant_home}/vagrant-files_1 2>/dev/null || true
+  umount ${vagrant_home}/vagrant-scripts_1 2>/dev/null || true
+
+  rm -rf ${vagrant_home}/Projects_1
+  rm -rf ${vagrant_home}/vagrant-files_1
+  rm -rf ${vagrant_home}/vagrant-scripts_1
+}
+
+nohup initialize_shared_folders &

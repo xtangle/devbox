@@ -3,7 +3,7 @@
 set -e
 
 if ! installed postman; then
-  sudo snap install postman --classic
+  sudo -E snap install postman --classic
 
   # add desktop icon
   cp -f ${vagrant_files}/Desktop/postman_postman.desktop ${HOME}/Desktop

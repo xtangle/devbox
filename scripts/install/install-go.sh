@@ -3,5 +3,5 @@
 set -e
 
 if ! installed go; then
-  sudo snap install go --classic
+  sudo -E snap install go --classic
 fi

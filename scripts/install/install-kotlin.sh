@@ -3,5 +3,5 @@
 set -e
 
 if ! installed kotlinc; then
-  sudo snap install kotlin --classic
+  sudo -E snap install kotlin --classic
 fi
