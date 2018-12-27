@@ -40,6 +40,7 @@ Programming Languages:
 - [VirtualBox 5.2.0+](https://www.virtualbox.org/wiki/Downloads) with the Extension Pack installed.
 - VBoxManage.exe exists in the folder `C:\Program Files\Oracle\VirtualBox`.
    - This should already be the case if VirtualBox is installed using the default settings.
+- Ability to create symbolic links inside shared folders, see [instructions](#Enable creation of symlinks on shared folders) below.
 
 ## Getting Started
 
@@ -50,3 +51,11 @@ Programming Languages:
    - Your answers will be saved in the `.vm-config.yaml` file. They will be used in future Vagrant commands unless the configuration file is outdated or deleted.
    - One of the questions asks to provide a user-specific provisioning script. This is an optional shell script that runs on the guest machine after all other provisioning is finished. 
    - To force to re-configure your VM, either rename or delete the `.vm-config.yaml` file.
+
+## Enable creation of symlinks on shared folders
+
+By default, only administrators on Windows machines are able to create symbolic links. To add your user, follow these steps:
+
+1. Download the tool [Polsedit](http://www.southsoftware.com/) and extract it locally.
+1. Open the .exe file in the extracted folder, and add your user to the policy named 'Create symbolic links'.
+1. Restart your computer.
