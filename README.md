@@ -40,7 +40,7 @@ Programming Languages:
 - [VirtualBox 5.2.0+](https://www.virtualbox.org/wiki/Downloads) with the Extension Pack installed.
 - VBoxManage.exe exists in the folder `C:\Program Files\Oracle\VirtualBox`.
    - This should already be the case if VirtualBox is installed using the default settings.
-- Ability to create symbolic links inside shared folders, see [instructions](#Enable creation of symlinks on shared folders) below.
+- Ability to create symbolic links inside shared folders, see [instructions](#enable-creation-of-symlinks-in-shared-folders) below.
 
 ## Getting Started
 
@@ -52,7 +52,7 @@ Programming Languages:
    - One of the questions asks to provide a user-specific provisioning script. This is an optional shell script that runs on the guest machine after all other provisioning is finished. 
    - To force to re-configure your VM, either rename or delete the `.vm-config.yaml` file.
 
-## Enable creation of symlinks on shared folders
+## Enable creation of symlinks in shared folders
 
 By default, only administrators on Windows machines are able to create symbolic links. To add your user, follow these steps:
 
