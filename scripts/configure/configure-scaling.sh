@@ -11,10 +11,6 @@ fi
 backup ${HOME}/.Xresources
 cp -f ${vagrant_files}/X/.Xresources ${HOME}
 
-# configure dpi for applications
-backup ${HOME}/.xprofile
-cp -f ${vagrant_files}/X/.xprofile ${HOME}
-
 # configure dpi on greeter screen
 backup /usr/share/lightdm/lightdm-gtk-greeter.conf.d/01_ubuntu.conf
 sudo sed -i -E 's/(xft-dpi)=.*/\1=200/' /usr/share/lightdm/lightdm-gtk-greeter.conf.d/01_ubuntu.conf

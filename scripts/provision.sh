@@ -17,6 +17,7 @@ run configure-screensaver.sh
 run configure-autologin.sh
 run configure-pcmanfm.sh
 run configure-scaling.sh
+run post-configuration.sh
 
 run install-java.sh
 run install-maven.sh
