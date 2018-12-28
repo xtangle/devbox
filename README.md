@@ -1,7 +1,7 @@
 # devbox
 
-This repository contains the Vagrant configuration to set up a local Ubuntu-based development Virtual Machine.
-The guest machine runs on [Ubuntu 18.04.1 LTS (Bionic Beaver)](http://releases.ubuntu.com/18.04.1/) with a core minimal
+This repository contains Vagrantfile and scripts to set up a local development Virtual Machine running in Linux.
+The machine runs on the [Ubuntu 18.04.1 LTS (Bionic Beaver)](http://releases.ubuntu.com/18.04.1/) distro with a minimal
 [Lubuntu](https://lubuntu.net/) desktop environment. It uses the official [ubuntu/bionic64](https://app.vagrantup.com/ubuntu/boxes/bionic64) box 
 from Ubuntu Cloud Images as the base image.
 
@@ -18,6 +18,8 @@ Software:
 - [Tilda](https://github.com/lanoxx/tilda)
 - [Postman](https://www.getpostman.com/)
 - [Google Chrome](https://www.google.com/chrome/)
+- [Evince](https://wiki.gnome.org/Apps/Evince)
+- [Viewnior](http://siyanpanayotov.com/project/viewnior)
 - [Sublime Text](https://www.sublimetext.com/)
 - [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/)
 - [Visual Studio Code](https://code.visualstudio.com/)
@@ -26,12 +28,14 @@ Programming Languages:
 
 - [OpenJDK](https://openjdk.java.net/)
 - [Maven](https://maven.apache.org/)
-- [Nvm](https://github.com/creationix/nvm)
+- [Nvm](https://github.com/creationix/nvm) (with latest version of Node, npm, and yarn installed)
 - [Ruby](https://www.ruby-lang.org/en/)
 - [Scala (Sbt)](https://www.scala-sbt.org/)
 - [Kotlin](https://kotlinlang.org/)
 - [Go](https://golang.org/)
 - [Haskell](https://www.haskell.org/)
+
+Most, if not all listed software will be upgraded to their most recent version upon a `vagrant up` (provisioning is done by default).
 
 ## Prerequisites
 

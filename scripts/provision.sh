@@ -34,6 +34,8 @@ run install-fonts.sh
 run install-tilda.sh
 run install-postman.sh
 run install-chrome.sh
+run install-evince.sh
+run install-viewnior.sh
 run install-sublime.sh
 run install-intellij.sh
 run install-vscode.sh
