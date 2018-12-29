@@ -12,15 +12,12 @@ mkdir -p ${HOME}/.config/libfm
 backup ${HOME}/.config/libfm/*.conf
 cp -f ${vagrant_files}/pcmanfm/libfm.conf ${HOME}/.config/libfm
 
-# add desktop icons
-if [[ ! -f ${HOME}/Desktop/vagrant-files.desktop ]]; then
-  cp -f ${vagrant_files}/Desktop/vagrant-files.desktop ${HOME}/Desktop
-fi
-
-if [[ ! -f ${HOME}/Desktop/vagrant-scripts.desktop ]]; then
-  cp -f ${vagrant_files}/Desktop/vagrant-scripts.desktop ${HOME}/Desktop
-fi
-
-if [[ ! -f ${HOME}/Desktop/Projects.desktop ]]; then
-  cp -f ${vagrant_files}/Desktop/Projects.desktop ${HOME}/Desktop
-fi
+# configure window sizes
+width_ratio=0.55
+height_ratio=0.65
+win_width=$(bc <<< "${width_ratio} * ${display_width} / 1")
+win_height=$(bc <<< "${height_ratio} * ${display_height} / 1")
+sed -i -E \
+  -e "s/(win_width)=.*/\1=${win_width}/" \
+  -e "s/(win_height)=.*/\1=${win_height}/" \
+  ${HOME}/.config/pcmanfm/lubuntu/pcmanfm.conf

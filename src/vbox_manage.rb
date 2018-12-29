@@ -5,8 +5,8 @@ module VBoxManage
     end
   end
 
-  def self.has_provisioned(machine)
-    system("\"#{VBOX_MANAGE_CMD}\" showvminfo #{machine} >nul 2>&1")
+  def self.has_provisioned(vm_name)
+    system("\"#{VBOX_MANAGE_CMD}\" showvminfo #{vm_name} >nul 2>&1")
   end
 
   def self.mount_folders(vb, name_path_hash)
@@ -18,8 +18,19 @@ module VBoxManage
     end
   end
 
-  def self.configure_resolution(vm_config)
-    system("\"#{VBOX_MANAGE_CMD}\" controlvm #{vm_config.vm_name} setevideomodehint #{vm_config.display_width} #{vm_config.display_height} #{vm_config.display_color_depth} >nul 2>&1")
+  def self.get_display_info
+    description = `wmic path Win32_VideoController get VideoModeDescription`
+    width, height, num_colors = description.match(/(\d+) x (\d+) x (\d+)/).captures
+    color_depth = Math.log2(num_colors.to_i)
+    {
+      :display_width => width.to_i,
+      :display_height => height.to_i,
+      :display_color_depth => color_depth.to_i
+    }
+  end
+
+  def self.configure_resolution(vm_name, display_info)
+    system("\"#{VBOX_MANAGE_CMD}\" controlvm #{vm_name} setevideomodehint #{display_info[:display_width]} #{display_info[:display_height]} #{display_info[:display_color_depth]} >nul 2>&1")
   end
 
   private

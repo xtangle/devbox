@@ -52,14 +52,6 @@ module VMConfig
   end
   private_class_method :host_timezone
 
-  def self.host_display_info
-    description = `wmic path Win32_VideoController get VideoModeDescription`
-    width, height, num_colors = description.match(/(\d+) x (\d+) x (\d+)/).captures
-    color_depth = Math.log2(num_colors.to_i)
-    [width, height, color_depth].map(&:to_i)
-  end
-  private_class_method :host_display_info
-
   def self.get_config_from_user
     vm_name = ask('What is the name of this VM?', 'devbox')
     base_memory = ask('What is the base machine memory in MB?', '8192').to_i
@@ -69,14 +61,12 @@ module VMConfig
     monitor_count = ask('What is the number of monitors?', '1').to_i
     timezone = ask('What is the timezone as GMT offset?', host_timezone)
     user_provision_script = ask('What is the path to the user provision script?', nil, 'none')
-    display_width, display_height, display_color_depth = host_display_info
 
     unless user_provision_script.nil? || File.file?(user_provision_script)
       abort("Error: user provision script not found at '#{user_provision_script}'")
     end
 
-    Config.new(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, user_provision_script,
-               display_width, display_height, display_color_depth)
+    Config.new(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, user_provision_script)
   end
   private_class_method :get_config_from_user
 
@@ -113,12 +103,8 @@ module VMConfig
     attr_reader :monitor_count
     attr_reader :timezone
     attr_reader :user_provision_script
-    attr_reader :display_width
-    attr_reader :display_height
-    attr_reader :display_color_depth
 
-    def initialize(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, user_provision_script,
-                   display_width, display_height, display_color_depth)
+    def initialize(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, user_provision_script)
       @serial_version_id = nil
       @vm_name = vm_name
       @base_memory = base_memory
@@ -128,9 +114,6 @@ module VMConfig
       @monitor_count = monitor_count
       @timezone = timezone
       @user_provision_script = user_provision_script
-      @display_width = display_width
-      @display_height = display_height
-      @display_color_depth = display_color_depth
 
       self.initialize_serial_version_id
     end

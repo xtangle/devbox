@@ -6,15 +6,17 @@ require_relative 'src/vm_config'
 
 VBoxManage::ensure_cmd_exists
 vm_config = VMConfig::initialize_vm_configuration
+display_info = VBoxManage::get_display_info
+env_vars = vm_config.to_hash.merge(display_info)
 has_provisioned = VBoxManage::has_provisioned vm_config.vm_name
 
 Vagrant.configure("2") do |config|
   config.trigger.before :all do |trigger|
-    trigger.ruby { Plugins::install_all }
+    trigger.ruby {Plugins::install_all}
   end
 
   config.trigger.before :up, :reload, :provision do |trigger|
-    trigger.ruby { VMConfig::print_configs }
+    trigger.ruby {VMConfig::print_configs}
   end
 
   config.vm.box = "ubuntu/bionic64"
@@ -54,13 +56,13 @@ Vagrant.configure("2") do |config|
   # adds user to vboxsf group so that shared folders can be accessed;
   # kills the ssh daemon to reset the ssh connection and allow user changes to take effect
   config.vm.provision "shell", inline: "adduser vagrant vboxsf && pkill -u vagrant sshd"
-  config.vm.provision "shell", run: "always", privileged: false, env: vm_config.to_hash, path: "scripts/provision.sh"
-  config.vm.provision "shell", run: "always", privileged: false, env: vm_config.to_hash, path: vm_config.user_provision_script unless vm_config.user_provision_script.nil?
+  config.vm.provision "shell", run: "always", privileged: false, env: env_vars, path: "scripts/provision.sh"
+  config.vm.provision "shell", run: "always", privileged: false, env: env_vars, path: vm_config.user_provision_script unless vm_config.user_provision_script.nil?
   config.vm.provision "logout", run: "never", type: "shell", inline: "pkill -SIGTERM -f lxsession"
 
   config.trigger.after :up do |trigger|
     trigger.ruby do
-      VBoxManage::configure_resolution vm_config
+      VBoxManage::configure_resolution(vm_config.vm_name, display_info)
       exec "vagrant reload --no-provision --provision-with logout"
     end
   end
