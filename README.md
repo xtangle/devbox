@@ -14,7 +14,7 @@ Software:
 - [Lubuntu Desktop Core](https://packages.ubuntu.com/bionic/lubuntu-core)
 - [Git](https://git-scm.com/)
 - [Docker](https://www.docker.com/)
-- [Input Fonts](http://input.fontbureau.com/)
+- [Input](http://input.fontbureau.com/) and [Roboto](https://fonts.google.com/specimen/Roboto) fonts
 - [Tilda](https://github.com/lanoxx/tilda)
 - [Postman](https://www.getpostman.com/)
 - [Google Chrome](https://www.google.com/chrome/)
@@ -62,4 +62,4 @@ By default, only administrators on Windows machines are able to create symbolic 
 
 1. Download the tool [Polsedit](http://www.southsoftware.com/) and extract it locally.
 1. Open the .exe file in the extracted folder, and add your user to the policy named 'Create symbolic links'.
-1. Restart your computer.
+1. Log out and log back in to your host machine.
