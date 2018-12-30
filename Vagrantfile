@@ -24,7 +24,6 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 3000, host: 3000
   config.vm.network "forwarded_port", guest: 8080, host: 8080
   config.vm.network "private_network", ip: "192.168.33.10"
-  config.vm.network "public_network"
   config.ssh.forward_agent = true
   config.disksize.size = "#{vm_config.disk_space}GB"
 
@@ -58,12 +57,11 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: "adduser vagrant vboxsf && pkill -u vagrant sshd"
   config.vm.provision "shell", run: "always", privileged: false, env: env_vars, path: "scripts/provision.sh"
   config.vm.provision "shell", run: "always", privileged: false, env: env_vars, path: vm_config.user_provision_script unless vm_config.user_provision_script.nil?
-  config.vm.provision "logout", run: "never", type: "shell", inline: "pkill -SIGTERM -f lxsession"
 
   config.trigger.after :up do |trigger|
     trigger.ruby do
       VBoxManage::configure_resolution(vm_config.vm_name, display_info)
-      exec "vagrant reload --no-provision --provision-with logout"
+      exec "vagrant reload --no-provision"
     end
   end
 end

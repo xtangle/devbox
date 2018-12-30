@@ -18,9 +18,10 @@ run configure-pcmanfm.sh
 run configure-scaling.sh
 run post-configuration.sh
 
+run install-nvm.sh
+run install-yarn.sh
 run install-java.sh
 run install-maven.sh
-run install-nvm.sh
 run install-sbt.sh
 run install-kotlin.sh
 run install-ruby.sh

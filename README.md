@@ -24,11 +24,12 @@ Software:
 - [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 
-Programming Languages:
+Programming languages and tools:
 
+- [Nvm](https://github.com/creationix/nvm) (with latest version of node and npm installed)
+- [Yarn](https://yarnpkg.com/en/)
 - [OpenJDK](https://openjdk.java.net/)
 - [Maven](https://maven.apache.org/)
-- [Nvm](https://github.com/creationix/nvm) (with latest version of Node, npm, and yarn installed)
 - [Ruby](https://www.ruby-lang.org/en/)
 - [Scala (Sbt)](https://www.scala-sbt.org/)
 - [Kotlin](https://kotlinlang.org/)
