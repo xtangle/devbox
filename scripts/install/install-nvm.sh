@@ -29,10 +29,11 @@ fi
 # install latest version of node and npm
 if [[ -z "${installed_version}" ]]; then
   nvm install node --latest-npm --no-progress 2>/dev/null
-else
+elif verlt "${installed_version}" "${latest_version}"; then
   nvm install node --reinstall-packages-from=node --latest-npm --no-progress 2>/dev/null
+else
+  nvm install node --latest-npm --no-progress 2>/dev/null
 fi
-nvm use node
 nvm alias default node
 
 # update global npm packages
