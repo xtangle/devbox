@@ -24,16 +24,16 @@ if [[ -z "${installed_version}" ]] || verlt "${installed_version}" "${latest_ver
   export PROFILE="${HOME}/.profile"
   wget -qO- "https://raw.githubusercontent.com/creationix/nvm/v${latest_version}/install.sh" | bash
   . ${HOME}/.nvm/nvm.sh
-
-  # install latest version of node and npm
-  if [[ -z "${installed_version}" ]]; then
-    nvm install node --latest-npm --no-progress 2>/dev/null
-  else
-    nvm install node --reinstall-packages-from=node --latest-npm --no-progress 2>/dev/null
-  fi
-  nvm use node
-  nvm alias default node
-
-  # update global npm packages
-  npm update -g
 fi
+
+# install latest version of node and npm
+if [[ -z "${installed_version}" ]]; then
+  nvm install node --latest-npm --no-progress 2>/dev/null
+else
+  nvm install node --reinstall-packages-from=node --latest-npm --no-progress 2>/dev/null
+fi
+nvm use node
+nvm alias default node
+
+# update global npm packages
+npm update -g

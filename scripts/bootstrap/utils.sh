@@ -9,7 +9,7 @@ function backup {
 }
 
 function installed {
-  type -t "${1}" >/dev/null 2>&1
+  hash "${1}" 2> /dev/null
 }
 
 function contains {
