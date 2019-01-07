@@ -5,9 +5,11 @@ set -e
 # loads nvm
 [[ -s ${HOME}/.nvm/nvm.sh ]] && . ${HOME}/.nvm/nvm.sh
 
+# add GPG key
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+
 # install yarn
 if ! installed yarn; then
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
   sudo -E apt-get -qq update
   sudo -E apt-get -qq install --no-install-recommends yarn
