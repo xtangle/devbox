@@ -21,6 +21,7 @@ Software:
 - [Evince](https://wiki.gnome.org/Apps/Evince)
 - [Viewnior](http://siyanpanayotov.com/project/viewnior)
 - [Sublime Text](https://www.sublimetext.com/)
+- [Meld](http://meldmerge.org/)
 - [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 

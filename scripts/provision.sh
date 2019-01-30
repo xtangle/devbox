@@ -37,6 +37,7 @@ run install-chrome.sh
 run install-evince.sh
 run install-viewnior.sh
 run install-sublime.sh
+run install-meld.sh
 run install-intellij.sh
 run install-vscode.sh
 run install-misc.sh
