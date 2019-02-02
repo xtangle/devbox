@@ -12,8 +12,8 @@ In addition to the default software bundled with Ubuntu, the provisioning proces
 Software:
 
 - [Lubuntu Desktop Core](https://packages.ubuntu.com/bionic/lubuntu-core)
+- [Docker & Docker Compose](https://www.docker.com/)
 - [Git](https://git-scm.com/)
-- [Docker](https://www.docker.com/)
 - [Input](http://input.fontbureau.com/) and [Roboto](https://fonts.google.com/specimen/Roboto) fonts
 - [Tilda](https://github.com/lanoxx/tilda)
 - [Postman](https://www.getpostman.com/)
@@ -22,6 +22,7 @@ Software:
 - [Viewnior](http://siyanpanayotov.com/project/viewnior)
 - [Sublime Text](https://www.sublimetext.com/)
 - [Meld](http://meldmerge.org/)
+- [DBeaver CE](https://dbeaver.io/)
 - [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 
@@ -31,11 +32,13 @@ Programming languages and tools:
 - [Yarn](https://yarnpkg.com/en/)
 - [OpenJDK](https://openjdk.java.net/)
 - [Maven](https://maven.apache.org/)
+- [Python 3](https://www.python.org/)
 - [Ruby](https://www.ruby-lang.org/en/)
 - [Scala (Sbt)](https://www.scala-sbt.org/)
 - [Kotlin](https://kotlinlang.org/)
 - [Go](https://golang.org/)
 - [Haskell](https://www.haskell.org/)
+- [Rust](https://www.rust-lang.org/)
 
 Most, if not all listed software will be upgraded to their most recent version upon a `vagrant up` (provisioning is done by default).
 
