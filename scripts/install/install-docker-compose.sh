@@ -2,7 +2,8 @@
 
 set -e
 
-# note: this script has the following dependencies: install-docker.sh
+# note: this script requires the following dependencies to be installed first:
+# - install-docker.sh
 
 # check installed version
 if ! installed docker-compose; then

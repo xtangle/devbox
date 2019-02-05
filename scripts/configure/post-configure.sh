@@ -7,3 +7,6 @@ sudo -E apt-get -qq autoremove
 
 # ensure the ownership of all files in user's config directory
 sudo chown -R vagrant /home/vagrant/.config
+
+# ensure the user's bin directory exists
+mkdir -p ${HOME}/bin

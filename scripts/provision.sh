@@ -24,6 +24,7 @@ run install-nvm.sh
 run install-yarn.sh
 run install-java.sh
 run install-maven.sh
+run install-clojure.sh
 run install-sbt.sh
 run install-kotlin.sh
 run install-python.sh
