@@ -4,7 +4,8 @@
 export DEBIAN_FRONTEND=noninteractive
 export DEBIAN_PRIORITY=critical
 
-source ${HOME}/vagrant-scripts/bootstrap/bootstrap.sh
+# shellcheck source=scripts/bootstrap/bootstrap.sh
+source "${HOME}/vagrant-scripts/bootstrap/bootstrap.sh"
 bootstrap
 
 reset_results_file

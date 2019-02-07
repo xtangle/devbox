@@ -16,7 +16,7 @@ function contains {
   if [[ -z "${2}" ]]; then
     grep -qs "${1}"
   else
-    grep -qs "${1}" ${2}
+    grep -qs "${1}" "${2}"
   fi
 }
 

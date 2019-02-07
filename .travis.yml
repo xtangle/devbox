@@ -2,7 +2,9 @@ matrix:
   include:
     - language: bash
       script:
+        - shellcheck --version
         - for file in $(find ./scripts -type f); do shellcheck --format=gcc $file; done;
     - language: ruby
       install: true
-      script: true
+      script:
+        - ruby -v
