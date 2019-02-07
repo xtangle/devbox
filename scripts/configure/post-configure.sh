@@ -9,4 +9,4 @@ sudo -E apt-get -qq autoremove
 sudo chown -R vagrant /home/vagrant/.config
 
 # ensure the user's bin directory exists
-mkdir -p ${HOME}/bin
+mkdir -p "${HOME}/bin"

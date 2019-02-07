@@ -9,7 +9,7 @@ if [[ -f /etc/disk_configured ]]; then
 fi
 
 sec_end=$(sudo fdisk -l | grep '/dev/sda5' | awk '{ print $3 }')
-new_sec_start=$[$sec_end + 1]
+new_sec_start=$((sec_end + 1))
 
 # Temporarily disabling fail-fast because fdisk gives a warning about the kernel not reading from the updated partition table.
 set +e

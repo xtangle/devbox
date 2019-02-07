@@ -1,5 +1,7 @@
 # devbox
 
+[![Build Status](https://travis-ci.org/xtangle/devbox.svg?branch=master)](https://travis-ci.org/xtangle/devbox)
+
 This repository contains Vagrantfile and scripts to set up a local development Virtual Machine running in Linux.
 The machine runs on the [Ubuntu 18.04.1 LTS (Bionic Beaver)](http://releases.ubuntu.com/18.04.1/) distro with a minimal
 [Lubuntu](https://lubuntu.net/) desktop environment. It uses the official [ubuntu/bionic64](https://app.vagrantup.com/ubuntu/boxes/bionic64) box 

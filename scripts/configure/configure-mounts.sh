@@ -6,8 +6,8 @@ set -e
 
 backup /etc/rc.local
 backup /etc/systemd/system/rc-local.service
-sudo cp -f ${vagrant_files}/rc-local/rc.local /etc
-sudo cp -f ${vagrant_files}/rc-local/rc-local.service /etc/systemd/system
+sudo cp -f "${VAGRANT_FILES}/rc-local/rc.local" /etc
+sudo cp -f "${VAGRANT_FILES}/rc-local/rc-local.service" /etc/systemd/system
 sudo chmod u+x /etc/rc.local
 sudo chmod a-x /etc/systemd/system/rc-local.service
 sudo systemctl -q enable rc-local.service

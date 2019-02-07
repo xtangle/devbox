@@ -2,8 +2,8 @@
 
 set -e
 
-# loads nvm
-[[ -s ${HOME}/.nvm/nvm.sh ]] && . ${HOME}/.nvm/nvm.sh
+# load nvm if exists
+load "${HOME}/.nvm/nvm.sh"
 
 # check installed version
 if ! installed nvm; then
@@ -23,7 +23,7 @@ fi
 if [[ -z "${installed_version}" ]] || verlt "${installed_version}" "${latest_version}"; then
   export PROFILE="${HOME}/.profile"
   wget -qO- "https://raw.githubusercontent.com/creationix/nvm/v${latest_version}/install.sh" | bash
-  . ${HOME}/.nvm/nvm.sh
+  load -f "${HOME}/.nvm/nvm.sh"
 fi
 
 # install latest version of node and npm

@@ -3,11 +3,12 @@
 require_relative 'src/plugins'
 require_relative 'src/vbox_manage'
 require_relative 'src/vm_config'
+require_relative 'src/display'
 
 VBoxManage::ensure_cmd_exists
 vm_config = VMConfig::initialize_vm_configuration
-display_info = VBoxManage::get_display_info
-env_vars = vm_config.to_hash.merge(display_info)
+display_info = Display::get_display_info
+env_vars = vm_config.to_hash.merge(display_info).map{|k, v| [k.upcase, v]}.to_h
 has_provisioned = VBoxManage::has_provisioned vm_config.vm_name
 
 Vagrant.configure("2") do |config|

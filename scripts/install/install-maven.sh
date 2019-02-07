@@ -30,12 +30,12 @@ if [[ -z "${installed_version}" ]] || verlt "${installed_version}" "${latest_ver
 fi
 
 # add maven to PATH and configure environment variables
-mkdir -p ${HOME}/.rc
-cat > ${HOME}/.rc/maven << EOL
+mkdir -p "${HOME}/.rc"
+cat > "${HOME}/.rc/maven" << EOL
 export M2_HOME=/opt/maven
 export MAVEN_HOME=\${M2_HOME}
 export PATH=\${M2_HOME}/bin:\${PATH}
 EOL
-if ! contains "source ${HOME}/.rc/maven" ${HOME}/.profile ; then
-  echo -e "source ${HOME}/.rc/maven" >> ${HOME}/.profile
+if ! contains "source ${HOME}/.rc/maven" "${HOME}/.profile" ; then
+  echo -e "source ${HOME}/.rc/maven" >> "${HOME}/.profile"
 fi
