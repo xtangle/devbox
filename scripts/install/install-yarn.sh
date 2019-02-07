@@ -2,13 +2,8 @@
 
 set -e
 
-load_nvm() {
-  # shellcheck source=/dev/null
-  . "${HOME}/.nvm/nvm.sh"
-}
-
-# loads nvm if exists
-[[ -s "${HOME}/.nvm/nvm.sh" ]] && load_nvm
+# load nvm if exists
+load "${HOME}/.nvm/nvm.sh"
 
 # add GPG key
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
