@@ -6,5 +6,4 @@ matrix:
         - for file in $(find ./scripts -type f); do shellcheck --format=gcc $file; done;
     - language: ruby
       install: true
-      script:
-        - ruby -v
+      script: true
