@@ -30,9 +30,9 @@ function print_results {
 }
 
 function run {
-  local script="$1"
-  local script_path=$(which "${script}")
-  local version="$(sha1sum "${script_path}" | cut -d' ' -f1)"
+  local script="${1}"
+  local script_path="$(which "${script}")"
+  local version="$(sha1sum ${script_path} | cut -d' ' -f1)"
   local args=( "${@:2}" )
 
   echo ">> Running script ${script}"
