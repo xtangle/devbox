@@ -32,6 +32,8 @@ run install-ruby.sh
 run install-go.sh
 run install-haskell.sh
 run install-rust.sh
+run install-erlang.sh
+run install-elixir.sh
 
 run install-docker.sh
 run install-docker-compose.sh

@@ -40,6 +40,8 @@ Programming languages and tools:
 - [Go](https://golang.org/)
 - [Haskell](https://www.haskell.org/)
 - [Rust](https://www.rust-lang.org/)
+- [Erlang](https://www.erlang.org/)
+- [Elixir](https://elixir-lang.org/)
 
 Most, if not all listed software will be upgraded to their most recent version upon a `vagrant up` (provisioning is done by default).
 
