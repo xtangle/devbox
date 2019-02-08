@@ -5,8 +5,6 @@ set -e
 # note: this script requires the following dependencies to be installed first:
 # - install-java.sh
 
-LEIN_SILENT=true
-
 if installed lein; then
   yes | lein upgrade
 else
