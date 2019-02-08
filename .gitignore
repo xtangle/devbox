@@ -6,4 +6,6 @@
 bin/
 logs/
 
+taskbar/tmp
+
 .vm-config.yaml

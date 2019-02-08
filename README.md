@@ -65,6 +65,7 @@ Most, if not all listed software will be upgraded to their most recent version u
    - Your answers will be saved in the `.vm-config.yaml` file. They will be used in future Vagrant commands unless the configuration file is outdated or deleted.
    - One of the questions asks to provide a user-specific provisioning script. This is an optional shell script that runs on the guest machine after all other provisioning is finished. 
    - To force to re-configure your VM, either rename or delete the `.vm-config.yaml` file.
+1. (Optional) Create a taskbar item to run `vagrant up` when executed. This can be done by running the batch file `taskbar/CreateTaskbarItem.cmd`.
 
 ## Enable creation of symlinks in shared folders
 

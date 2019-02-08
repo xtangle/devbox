@@ -2,6 +2,7 @@
 *         text=auto eol=lf
 
 # These files should be treated as binary (binary is a macro for -text -diff)
+*.ico     binary
 
 # Exclude the following from Github's language analysis
 files/*   linguist-vendored
