@@ -25,19 +25,19 @@ function print_results {
     echo "${failed_installs}" > /dev/stderr
     status=1
   fi
-  echo ">> Results are written to ${RESULTS_FILE}"
+  echo ">> Results were written to ${RESULTS_FILE}"
   return ${status}
 }
 
 function run {
   local script="${1}"
-  local script_path="$(which "${script}")"
-  local version="$(sha1sum ${script_path} | cut -d' ' -f1)"
+  local script_path="$(command -v "${script}")"
+  local version="$(sha1sum "${script_path}" | cut -d' ' -f1)"
   local args=( "${@:2}" )
 
   echo ">> Running script ${script}"
   "${script}" "${args[@]}"
-  local status=$?
+  local status=${?}
   local timestamp=$(TZ=${TIMEZONE:-$(cat /etc/timezone)} date +'%Y-%m-%d %H:%M:%S %Z%z')
   remove_record "${script}"
   echo "${script},${version},${timestamp},${status}" >> "${RESULTS_FILE}"
