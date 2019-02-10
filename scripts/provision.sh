@@ -42,8 +42,9 @@ run install-git.sh
 run install-fonts.sh
 run install-tilda.sh
 run install-postman.sh
-run install-libreoffice.sh
 run install-chrome.sh
+run install-firefox.sh
+run install-libreoffice.sh
 run install-evince.sh
 run install-viewnior.sh
 run install-sublime.sh

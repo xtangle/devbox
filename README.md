@@ -19,8 +19,9 @@ Software:
 - [Input](http://input.fontbureau.com/) and [Roboto](https://fonts.google.com/specimen/Roboto) fonts
 - [Tilda](https://github.com/lanoxx/tilda)
 - [Postman](https://www.getpostman.com/)
-- [LibreOffice](https://www.libreoffice.org/)
 - [Google Chrome](https://www.google.com/chrome/)
+- [Firefox](https://www.mozilla.org/en-US/firefox/)
+- [LibreOffice](https://www.libreoffice.org/)
 - [Evince](https://wiki.gnome.org/Apps/Evince)
 - [Viewnior](http://siyanpanayotov.com/project/viewnior)
 - [Sublime Text](https://www.sublimetext.com/)
