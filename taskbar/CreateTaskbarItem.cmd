@@ -2,11 +2,11 @@
 
 set TskDir=%~dp0
 set TmpDir=%TskDir%tmp\
-set TargetFile=%TskDir%VagrantUp.cmd
+set TargetFile=%TskDir%TaskbarItem.cmd
 set PinToTaskbarFile=%TskDir%PinToTaskbar.vbs
 set IconFile=%TskDir%Vagrant.ico
 set CreateLinkFile=%TmpDir%CreateLink.vbs
-set LinkFile=%TmpDir%VagrantUp.lnk
+set LinkFile=%TmpDir%TaskbarItem.lnk
 
 if not exist %TmpDir% mkdir %TmpDir%
 
