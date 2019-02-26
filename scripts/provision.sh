@@ -16,6 +16,7 @@ run configure-utils.sh
 run configure-desktop.sh
 run configure-screensaver.sh
 run configure-autologin.sh
+run configure-mouse.sh
 run configure-pcmanfm.sh
 run configure-scaling.sh
 
