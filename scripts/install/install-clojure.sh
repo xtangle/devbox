@@ -6,7 +6,8 @@ set -e
 # - install-java.sh
 
 if installed lein; then
-  yes | lein upgrade
+  # upgrade lein script, hide curl output
+  yes | lein upgrade 2> /dev/null
 else
   lein_file="${HOME}/bin/lein"
   curl -sSL https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein -o "${lein_file}"

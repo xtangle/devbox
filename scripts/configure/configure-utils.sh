@@ -8,4 +8,4 @@ sudo -E apt-get -qq install apt-transport-https ca-certificates curl software-pr
 # install useful packages that are needed in other installation scripts
 sudo add-apt-repository ppa:rmescandon/yq
 sudo apt-get update
-sudo -E apt-get -qq install unzip xmlstarlet jq yq
+sudo -E apt-get -qq install unzip xmlstarlet jq yq shellcheck

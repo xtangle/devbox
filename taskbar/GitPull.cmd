@@ -1,21 +1,31 @@
 @echo off
 setlocal EnableDelayedExpansion
 where git >nul 2>nul
-if %ERRORLEVEL% == 0 (
-  echo Updating repositories...
+if %errorlevel% == 0 (
+  echo Updating provisioning repositories...
   cd "%~dp0\.."
-  echo Running 'git pull' in !cd!
-  git pull
+  git ls-remote >nul 2>&1
+  if %errorlevel% == 0 (
+    echo Running 'git pull' in: !cd!
+    git pull
+  ) else (
+    echo No remote configured in: !cd!
+  )
   if exist .vm-config.yaml (
     for /f "tokens=*" %%i in ('@findstr /ib user_provision_script: .vm-config.yaml') do set usrscriptline=%%i
     set usrscriptfile=!usrscriptline:~24,-1!
     for /f %%i in ("!usrscriptfile!") do set usrscriptpath=%%~di%%~pi
     cd !usrscriptpath!
-    echo Running 'git pull' in !cd!
-    git pull
+    git ls-remote >nul 2>&1
+    if %errorlevel% == 0 (
+      echo Running 'git pull' in: !cd!
+      git pull
+    ) else (
+      echo No remote configured in: !cd!
+    )
   )
   cd "%~dp0"
-  echo Finished updating repositories.
+  echo Finished updating provisioning repositories.
 ) else (
-  echo Not updating repositories because 'git' is not installed.
+  echo Not updating provisioning repositories because 'git' is not installed.
 )
