@@ -5,6 +5,8 @@ require_relative 'src/vbox_manage'
 require_relative 'src/vm_config'
 require_relative 'src/display'
 
+Vagrant.require_version ">= 2.0.0"
+
 VBoxManage::ensure_cmd_exists
 vm_config = VMConfig::initialize_vm_configuration
 display_info = Display::get_display_info
@@ -63,6 +65,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
+  if File.exist?("#{ENV['userprofile']}\\.git-credentials") || File.exist?("#{ENV['HOME']}/.git-credentials")
+    config.vm.provision "file", run: "always", source: "~/.git-credentials", destination: "~/.git-credentials"
+  end
   # adds user to vboxsf group so that shared folders can be accessed;
   # kills the ssh daemon to reset the ssh connection and allow user changes to take effect
   config.vm.provision "shell", inline: "adduser vagrant vboxsf && pkill -u vagrant sshd"
