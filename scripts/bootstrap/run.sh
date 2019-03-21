@@ -35,11 +35,11 @@ function run {
   local version="$(sha1sum "${script_path}" | cut -d' ' -f1)"
   local args=( "${@:2}" )
 
-  echo ">> Running script ${script}"
+  echo ">> [${script}] Executing script..."
   "${script}" "${args[@]}"
   local status=${?}
   local timestamp=$(TZ=${TIMEZONE:-$(cat /etc/timezone)} date +'%Y-%m-%d %H:%M:%S %Z%z')
   remove_record "${script}"
   echo "${script},${version},${timestamp},${status}" >> "${RESULTS_FILE}"
-  echo ">> Script ${script} terminated with status code ${status}" > "$( (( status == 0 )) && echo /dev/stdout || echo /dev/stderr )"
+  echo ">> [${script}] Script exited with status code ${status}" > "$( (( status == 0 )) && echo /dev/stdout || echo /dev/stderr )"
 }

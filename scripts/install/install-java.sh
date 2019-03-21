@@ -15,6 +15,4 @@ mkdir -p "${HOME}/.rc"
 cat > "${HOME}/.rc/java" << EOL
 export JAVA_HOME="/usr/lib/jvm/default-java"
 EOL
-if ! contains "source ${HOME}/.rc/java" "${HOME}/.profile" ; then
-  echo -e "source ${HOME}/.rc/java" >> "${HOME}/.profile"
-fi
+source_in_profile "\${HOME}/.rc/java"

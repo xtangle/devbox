@@ -25,7 +25,7 @@ if [[ -z "${installed_version}" ]] || verlt "${installed_version}" "${latest_ver
 
   sudo tar -xf "/tmp/apache-maven-${latest_version}-bin.tar.gz" -C /opt
   sudo rm -f "/tmp/apache-maven-${latest_version}-bin.tar.gz"
-  sudo ln -s "/opt/apache-maven-${latest_version}" /opt/maven
+  sudo ln -sf "/opt/apache-maven-${latest_version}" /opt/maven
   sudo rm -rf "/opt/apache-maven-${installed_version}"
 fi
 
@@ -36,6 +36,4 @@ export M2_HOME=/opt/maven
 export MAVEN_HOME=\${M2_HOME}
 export PATH=\${M2_HOME}/bin:\${PATH}
 EOL
-if ! contains "source ${HOME}/.rc/maven" "${HOME}/.profile" ; then
-  echo -e "source ${HOME}/.rc/maven" >> "${HOME}/.profile"
-fi
+source_in_profile "\${HOME}/.rc/maven"

@@ -21,6 +21,4 @@ mkdir -p "${HOME}/.rc"
 cat > "${HOME}/.rc/yarn" << EOL
 export PATH=${yarn_bin}:\${PATH}
 EOL
-if ! contains "source ${HOME}/.rc/yarn" "${HOME}/.profile" ; then
-  echo -e "source ${HOME}/.rc/yarn" >> "${HOME}/.profile"
-fi
+source_in_profile "\${HOME}/.rc/yarn"
