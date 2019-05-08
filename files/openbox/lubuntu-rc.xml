@@ -194,6 +194,7 @@
         <wrap>no</wrap>
       </action>
     </keybind>
+    <!-- 
     <keybind key="C-A-Right">
       <action name="GoToDesktop">
         <to>right</to>
@@ -235,7 +236,8 @@
         <to>down</to>
         <wrap>no</wrap>
       </action>
-    </keybind>
+    </keybind> 
+  -->
     <keybind key="W-F1">
       <action name="GoToDesktop">
         <to>1</to>
