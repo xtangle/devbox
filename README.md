@@ -16,6 +16,7 @@ Software:
 - [Lubuntu Desktop Core](https://packages.ubuntu.com/bionic/lubuntu-core)
 - [Docker & Docker Compose](https://www.docker.com/)
 - [Git](https://git-scm.com/)
+- [Confluent Platform](https://www.confluent.io/product/confluent-platform/)
 - [Input](http://input.fontbureau.com/) and [Roboto](https://fonts.google.com/specimen/Roboto) fonts
 - [Tilda](https://github.com/lanoxx/tilda)
 - [Postman](https://www.getpostman.com/)

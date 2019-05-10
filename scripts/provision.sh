@@ -39,6 +39,7 @@ run install-elixir.sh
 
 run install-docker.sh
 run install-docker-compose.sh
+run install-confluent.sh
 run install-git.sh
 run install-fonts.sh
 run install-tilda.sh
