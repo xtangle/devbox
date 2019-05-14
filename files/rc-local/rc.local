@@ -17,9 +17,9 @@ function initialize_shared_folders {
 
   # mount shared folders with correct permissions
 
-  mount -t vboxsf -o uid=${vagrant_uid},gid=${vboxsf_gid} Projects ${vagrant_home}/Projects
-  mount -t vboxsf -o uid=${vagrant_uid},gid=${vboxsf_gid} vagrant-files ${vagrant_home}/vagrant-files
-  mount -t vboxsf -o uid=${vagrant_uid},gid=${vboxsf_gid} vagrant-scripts ${vagrant_home}/vagrant-scripts
+  mount -t vboxsf -o dmode=777,fmode=777,uid=${vagrant_uid},gid=${vboxsf_gid} Projects ${vagrant_home}/Projects
+  mount -t vboxsf -o dmode=777,fmode=777,uid=${vagrant_uid},gid=${vboxsf_gid} vagrant-files ${vagrant_home}/vagrant-files
+  mount -t vboxsf -o dmode=777,fmode=777,uid=${vagrant_uid},gid=${vboxsf_gid} vagrant-scripts ${vagrant_home}/vagrant-scripts
 
   # unmount and remove any duplicated shared folders in home directory if they still exist
 
@@ -31,5 +31,6 @@ function initialize_shared_folders {
   rm -rf ${vagrant_home}/vagrant-files_1
   rm -rf ${vagrant_home}/vagrant-scripts_1
 }
+export -f initialize_shared_folders 
 
-nohup initialize_shared_folders &
+nohup bash -c initialize_shared_folders &

@@ -6,9 +6,7 @@ set -e
 # The bug seems to be in the libinput driver, and switching the pointer driver to evdev seems to solve the problem.
 # See https://forums.virtualbox.org/viewtopic.php?f=3&t=79002#p401248
 
-# install the evdev pointer driver
-sudo -E apt-get -qq install xserver-xorg-input-evdev
+# update 1: see https://forums.virtualbox.org/viewtopic.php?f=3&t=79002&sid=56b23a50a361230431d5e3ab66352701&start=15#p447951
 
-# copy config
-backup /usr/share/X11/xorg.conf.d/40-libinput.conf
-sudo cp -f "${VAGRANT_FILES}/X/40-libinput.conf" /usr/share/X11/xorg.conf.d
+# install the evdev pointer drivers (which should override libinput)
+sudo -E apt-get -qq install xserver-xorg-core-hwe-18.04 xserver-xorg-input-evdev-hwe-18.04
