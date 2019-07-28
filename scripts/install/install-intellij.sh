@@ -8,11 +8,16 @@ else
   installed_version="$(find "${HOME}" -maxdepth 1 -type d -name ".IntelliJIdea*" | sort -r | head -1 | grep -Po 'IntelliJIdea\K.*')"
 fi
 
-intellij_url="$(curl -s "https://data.services.jetbrains.com/products/releases?code=IIU&latest=true&type=release" | grep -Eo "linuxWithoutJDK\":{\"link\":\"[^\"]+" | grep -Eo 'https?://[^ ]+')"
+intellij_url="$(curl -s "https://data.services.jetbrains.com/products/releases?code=IIU&latest=true&type=release" | grep -Eo "linux\":{\"link\":\"[^\"]+" | grep -Eo 'https?://[^ ]+')"
+if [[ -z "${intellij_url}" ]]; then
+  echo "Unable to get latest IntelliJ url from JetBrains website" > /dev/stderr
+  exit 1
+fi
+
 intellij_tar_zip_file=ideaIU-no-jdk.tar.gz
 latest_minor_version="$(echo "${intellij_url}" | grep -Po 'ideaIU-\K\d+\.\d')"
 if [[ -z "${latest_minor_version}" ]]; then
-  echo "Unable to get latest version of IntelliJ" > /dev/stderr
+  echo "Unable to parse latest version of IntelliJ from url" > /dev/stderr
   exit 1
 fi
 
