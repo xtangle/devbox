@@ -2,7 +2,6 @@ require 'cgi'
 require 'io/console'
 require 'yaml'
 require 'digest/sha1'
-require 'time'
 
 module VMConfig
   def self.initialize_vm_configuration
@@ -45,13 +44,6 @@ module VMConfig
     response.start_with?('y')
   end
 
-  def self.host_timezone
-    offset = (Time.zone_offset(Time.now.zone) / 60) / 60
-    timezone_suffix = "#{offset >= 0 ? "-" : "+"}#{offset.abs}"
-    "GMT#{timezone_suffix}"
-  end
-  private_class_method :host_timezone
-
   def self.get_config_from_user
     vm_name = ask('What is the name of this VM?', 'devbox')
     base_memory = ask('What is the base machine memory in MB?', '8192').to_i
@@ -59,7 +51,7 @@ module VMConfig
     processors = ask('What is the number of processors?', '4').to_i
     video_memory = ask('What is the video memory in MB?', '128').to_i
     monitor_count = ask('What is the number of monitors?', '1').to_i
-    timezone = ask('What is the timezone as GMT offset?', host_timezone)
+    timezone = ask('What is the timezone? (eg. America/Toronto)', 'UTC')
     user_provision_script = ask('What is the path to the user provision script?', nil, 'none')
 
     unless user_provision_script.nil? || File.file?(user_provision_script)
