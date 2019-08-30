@@ -44,7 +44,7 @@ Programming languages and tools:
 - [Scala](https://www.scala-lang.org/) [(Sbt)](https://www.scala-sbt.org/)
 - [Kotlin](https://kotlinlang.org/)
 - [Go](https://golang.org/)
-- [Haskell](https://www.haskell.org/)
+- [Haskell](https://www.haskell.org/) (with [Stack](https://docs.haskellstack.org/en/stable/README/))
 - [Rust](https://www.rust-lang.org/)
 - [Erlang](https://www.erlang.org/)
 - [Elixir](https://elixir-lang.org/)
