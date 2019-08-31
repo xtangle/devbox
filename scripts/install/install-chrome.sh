@@ -12,5 +12,5 @@ if ! installed google-chrome; then
   sudo update-alternatives --set x-www-browser /usr/bin/google-chrome-stable
 
   # add desktop icon
-  cp -f "${VAGRANT_FILES}/Desktop/google-chrome.desktop" "${HOME}/Desktop"
+  cp -f "${DEVBOX_FILES}/Desktop/google-chrome.desktop" "${HOME}/Desktop"
 fi

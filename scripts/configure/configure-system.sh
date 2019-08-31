@@ -2,11 +2,13 @@
 
 set -e
 
+load_provision_vars
+
 # set passwords
 echo -e "root\nroot" | (sudo passwd -q root) >/dev/null 2>&1
 
 # configure timezone
-sudo timedatectl set-timezone "${TIMEZONE}"
+sudo timedatectl set-timezone "${PROVISION_TIMEZONE}"
 
 # removes the ubuntu user, if it exists
 if id -u ubuntu > /dev/null 2>&1; then

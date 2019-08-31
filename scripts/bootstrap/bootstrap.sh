@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 
 function bootstrap {
-  export VAGRANT_FILES="${HOME}/vagrant-files"
-  export VAGRANT_SCRIPTS="${HOME}/vagrant-scripts"
+  export DEVBOX_DIR="${HOME}/devbox"
+  export DEVBOX_FILES="${DEVBOX_DIR}/files"
+  export DEVBOX_SCRIPTS="${DEVBOX_DIR}/scripts"
 
-  export PATH="${VAGRANT_SCRIPTS}/configure:${VAGRANT_SCRIPTS}/install:${PATH}"
+  export PATH="${DEVBOX_SCRIPTS}/configure:${DEVBOX_SCRIPTS}/install:${PATH}"
 
-  export RESULTS_FILE="${HOME}/.provision-results.csv"
-
-  export HAS_BOOTSTRAPED="true"
+  export RESULTS_FILE="${DEVBOX_DIR}/tmp/provision-results.csv"
 
   # sources all files in the bootstrap directory except this one
-  eval "$(find "${VAGRANT_SCRIPTS}/bootstrap" -maxdepth 1 -type f ! -name 'bootstrap.sh' -exec echo source \'{}\'';' \;)"
+  eval "$(find "${DEVBOX_SCRIPTS}/bootstrap" -maxdepth 1 -type f ! -name 'bootstrap.sh' -exec echo source \'{}\'';' \;)"
+
+  export HAS_BOOTSTRAPED="true"
 }
 
 export -f bootstrap

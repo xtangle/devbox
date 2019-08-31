@@ -49,9 +49,15 @@ function source_in_profile {
   fi
 }
 
+function load_provision_vars {
+  # shellcheck source=/dev/null
+  source "${HOME}/devbox/tmp/provision-vars.sh"
+}
+
 export -f backup
 export -f installed
 export -f contains
 export -f load
 export -f verlt
 export -f source_in_profile
+export -f load_provision_vars

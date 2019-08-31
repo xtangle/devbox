@@ -2,14 +2,16 @@
 
 set -e
 
+load_provision_vars
+
 # configure scaling only for high resolution
-if [[ ${DISPLAY_WIDTH} -le 2560 ]]; then
+if [[ ${PROVISION_DISPLAY_WIDTH} -le 2560 ]]; then
   exit 0
 fi
 
 # configure global dpi
 backup "${HOME}/.Xresources"
-cp -f "${VAGRANT_FILES}/X/.Xresources" "${HOME}"
+cp -f "${DEVBOX_FILES}/X/.Xresources" "${HOME}"
 
 # configure dpi on greeter screen
 backup /usr/share/lightdm/lightdm-gtk-greeter.conf.d/01_ubuntu.conf

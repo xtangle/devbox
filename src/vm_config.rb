@@ -18,6 +18,7 @@ module VMConfig
       puts "Saved configuration settings to #{CONFIG_FILE}"
     end
 
+    config.validate
     config
   end
 
@@ -29,6 +30,9 @@ module VMConfig
   end
 
   private
+
+  CONFIG_FILE = '.vm-config.yaml'
+  private_constant :CONFIG_FILE
 
   def self.ask(question, default = '', default_text = default)
     print "#{question} #{default_text.empty? ? '' : "(default: #{default_text}): "}"
@@ -43,6 +47,7 @@ module VMConfig
     response = ask(question, default, default_text)
     response.start_with?('y')
   end
+  private_class_method :yesno
 
   def self.get_config_from_user
     vm_name = ask('What is the name of this VM?', 'devbox')
@@ -52,13 +57,9 @@ module VMConfig
     video_memory = ask('What is the video memory in MB?', '128').to_i
     monitor_count = ask('What is the number of monitors?', '1').to_i
     timezone = ask('What is the timezone? (eg. America/Toronto)', 'UTC')
-    user_provision_script = ask('What is the path to the user provision script?', nil, 'none')
+    restart = yesno('Restart after provisioning? (you can change this later)', 'yes')
 
-    unless user_provision_script.nil? || File.file?(user_provision_script)
-      abort("Error: user provision script not found at '#{user_provision_script}'")
-    end
-
-    Config.new(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, user_provision_script)
+    Config.new(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, restart)
   end
   private_class_method :get_config_from_user
 
@@ -82,21 +83,11 @@ module VMConfig
   end
   private_class_method :load_config_file
 
-  CONFIG_FILE = '.vm-config.yaml'
-  private_constant :CONFIG_FILE
-
   class Config
-    attr_reader :serial_version_id
-    attr_reader :vm_name
-    attr_reader :base_memory
-    attr_reader :disk_space
-    attr_reader :processors
-    attr_reader :video_memory
-    attr_reader :monitor_count
-    attr_reader :timezone
-    attr_reader :user_provision_script
+    attr_reader :serial_version_id, :vm_name, :base_memory, :disk_space, :processors, :video_memory, :monitor_count,
+                :timezone, :restart, :extra_scripts, :extra_mounts
 
-    def initialize(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, user_provision_script)
+    def initialize(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, restart)
       @serial_version_id = nil
       @vm_name = vm_name
       @base_memory = base_memory
@@ -105,7 +96,9 @@ module VMConfig
       @video_memory = video_memory
       @monitor_count = monitor_count
       @timezone = timezone
-      @user_provision_script = user_provision_script
+      @restart = restart
+      @extra_scripts = []
+      @extra_mounts = {}
 
       self.initialize_serial_version_id
     end
@@ -119,7 +112,7 @@ module VMConfig
     end
 
     def to_hash
-      self.own_vars.reduce({}) do |hash, f|
+      self.own_vars.select { |f| f != '@serial_version_id' }.reduce({}) do |hash, f|
         hash[f.delete('@')] = self.instance_variable_get f
         hash
       end
@@ -127,14 +120,33 @@ module VMConfig
 
     def to_s
       fields = own_vars.dup
-      fields.delete('@serial_version_id')
-      body = fields.map { |f| "    #{f.delete('@')}: #{self.instance_variable_get f}" }.join("\n")
+      body = fields.select { |f| f != '@serial_version_id' }
+               .map { |f| "    #{f.delete('@')}: #{self.instance_variable_get f}" }
+               .join("\n")
       "{\n#{body}\n}"
+    end
+
+    def validate
+      failed_msg = 'Error: vm-config file validation failed'
+
+      extra_scripts.each do |path|
+        unless File.file?(path)
+          abort("#{failed_msg}. Extra provision script not found at path '#{path}'")
+        end
+      end
+
+      extra_mounts.each do |name, path|
+        if name.nil? || name.empty?
+          abort("#{failed_msg}. Extra mount cannot be created, mount name cannot be empty for path '#{path}'")
+        end
+        unless File.directory?(path)
+          abort("#{failed_msg}. Extra mount cannot be created, host directory does not exist at '#{path}'")
+        end
+      end
     end
 
     def self.serial_version_id
       self.new(*Array.new(self.instance_method(:initialize).arity, '')).serial_version_id
     end
   end
-  private_constant :Config
 end
