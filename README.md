@@ -54,11 +54,12 @@ Most, if not all listed software will be upgraded to their most recent version u
 
 ## Prerequisites
 
-- A host machine running on Windows.
 - [Vagrant 2.0.0+](https://www.vagrantup.com/downloads.html) installed.
 - [VirtualBox 5.2.0+](https://www.virtualbox.org/wiki/Downloads) with the Extension Pack installed.
-- VBoxManage.exe exists in the folder `C:\Program Files\Oracle\VirtualBox`.
+- VBoxManage is installed
    - This should already be the case if VirtualBox is installed using the default settings.
+   - On Windows, it suffices for the file `C:\Program Files\Oracle\VirtualBox\VBoxManage.exe` to exist.
+   - On Linux or Mac, the command `vboxmanage` needs to be in your PATH.
 - Ability to create symbolic links inside shared folders, see [instructions](#enable-creation-of-symlinks-in-shared-folders) below.
 
 ## Getting Started
