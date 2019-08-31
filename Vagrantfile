@@ -68,16 +68,22 @@ Vagrant.configure("2") do |config|
   if File.exist?("#{ENV['userprofile']}\\.git-credentials") || File.exist?("#{ENV['HOME']}/.git-credentials")
     config.vm.provision "file", run: "always", source: "~/.git-credentials", destination: "~/.git-credentials"
   end
+
   # adds user to vboxsf group so that shared folders can be accessed;
   # kills the ssh daemon to reset the ssh connection and allow user changes to take effect
   config.vm.provision "shell", inline: "adduser vagrant vboxsf && pkill -u vagrant sshd"
   config.vm.provision "shell", run: "always", privileged: false, env: env_vars, path: "scripts/provision.sh"
-  config.vm.provision "shell", run: "always", privileged: false, env: env_vars, path: vm_config.user_provision_script unless vm_config.user_provision_script.nil?
 
-  config.trigger.after :up do |trigger|
-    trigger.ruby do
-      VBoxManage::configure_resolution(vm_config.vm_name, display_info)
-      exec "vagrant reload --no-provision"
+  vm_config.extra_provision_scripts.each do |path|
+    config.vm.provision "shell", run: "always", privileged: false, env: env_vars, path: path
+  end
+
+  if vm_config.restart
+    config.trigger.after :up do |trigger|
+      trigger.ruby do
+        VBoxManage::configure_resolution(vm_config.vm_name, display_info)
+        exec "vagrant reload --no-provision"
+      end
     end
   end
 end

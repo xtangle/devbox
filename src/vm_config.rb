@@ -18,6 +18,7 @@ module VMConfig
       puts "Saved configuration settings to #{CONFIG_FILE}"
     end
 
+    config.validate
     config
   end
 
@@ -43,6 +44,7 @@ module VMConfig
     response = ask(question, default, default_text)
     response.start_with?('y')
   end
+  private_class_method :yesno
 
   def self.get_config_from_user
     vm_name = ask('What is the name of this VM?', 'devbox')
@@ -52,13 +54,9 @@ module VMConfig
     video_memory = ask('What is the video memory in MB?', '128').to_i
     monitor_count = ask('What is the number of monitors?', '1').to_i
     timezone = ask('What is the timezone? (eg. America/Toronto)', 'UTC')
-    user_provision_script = ask('What is the path to the user provision script?', nil, 'none')
+    restart = yesno('Restart after provisioning? (you can change this later)', 'yes')
 
-    unless user_provision_script.nil? || File.file?(user_provision_script)
-      abort("Error: user provision script not found at '#{user_provision_script}'")
-    end
-
-    Config.new(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, user_provision_script)
+    Config.new(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, restart)
   end
   private_class_method :get_config_from_user
 
@@ -94,9 +92,11 @@ module VMConfig
     attr_reader :video_memory
     attr_reader :monitor_count
     attr_reader :timezone
-    attr_reader :user_provision_script
+    attr_reader :restart
+    attr_reader :extra_provision_scripts
+    attr_reader :extra_mount_points
 
-    def initialize(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, user_provision_script)
+    def initialize(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, restart)
       @serial_version_id = nil
       @vm_name = vm_name
       @base_memory = base_memory
@@ -105,7 +105,9 @@ module VMConfig
       @video_memory = video_memory
       @monitor_count = monitor_count
       @timezone = timezone
-      @user_provision_script = user_provision_script
+      @restart = restart
+      @extra_provision_scripts = []
+      @extra_mount_points = []
 
       self.initialize_serial_version_id
     end
@@ -132,9 +134,24 @@ module VMConfig
       "{\n#{body}\n}"
     end
 
+    def validate
+      failed_msg = 'Error: vm-config file validation failed'
+
+      extra_provision_scripts.each do |path|
+        unless File.file?(path)
+          abort("#{failed_msg}. Extra provision script not found at path '#{path}'")
+        end
+      end
+
+      extra_mount_points.map { |mount_point| mount_point['host_dir'] }.each do |host_dir|
+        unless File.directory?(host_dir)
+          abort("#{failed_msg}. Extra mount point cannot be created, host directory does not exist at '#{host_dir}'")
+        end
+      end
+    end
+
     def self.serial_version_id
       self.new(*Array.new(self.instance_method(:initialize).arity, '')).serial_version_id
     end
   end
-  private_constant :Config
 end
