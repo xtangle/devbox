@@ -64,13 +64,36 @@ Most, if not all listed software will be upgraded to their most recent version u
 ## Getting Started
 
 1. Ensure all prerequisites have been met (see previous section).
-1. Clone this repo to a directory where you store all your coding projects. 
-   - A shared folder will be created linking this directory from the host machine to `${HOME}/Projects` in the guest machine. 
+1. Clone this repo to your host machine. 
+   - A shared folder will be created linking this directory from the host machine to `${HOME}/vagrant` in the guest machine. 
 1. Run the command `vagrant up` from the directory of the cloned repository and answer the questions to the interactive prompts.
-   - Your answers will be saved in the `.vm-config.yaml` file. They will be used in future Vagrant commands unless the configuration file is outdated or deleted.
-   - One of the questions asks to provide a user-specific provisioning script. This is an optional shell script that runs on the guest machine after all other provisioning is finished. 
-   - To force to re-configure your VM, either rename or delete the `.vm-config.yaml` file.
+   - Your answers will be saved in the `.vm-config.yaml` file. This configuration file will be used in future provisions unless the configuration file is outdated or deleted. 
+   - Tip: to force prompting the configuration again, either rename or delete the `.vm-config.yaml` file.
 1. (Optional) Create a taskbar item to run `vagrant up` when executed. This can be done by running the batch file `taskbar/CreateTaskbarItem.cmd`.
+
+## VM Configs
+
+As mentioned, the `.vm-config.yaml` file stores configuration for your provisioned VM. This file is updated every time you've
+answered questions during initial prompting on `vagrant up`. In addition to the questions asked, there are additional configurations
+you can manually add to this file. These are listed below:
+
+- `extra_mounts` - An object with mount names as keys and mount paths as values. 
+    - The mount name is a unique identifier of the mount and specifies the mount point in the guest machine (mounts will be mounted to `${HOME}/<name>`).
+    - The mount path is a directory on the host machine. It can be an absolute path or a path relative to the directory containing the `Vagrantfile`.
+    
+- `extra_scripts` - A list of strings containing paths (on the host machine) to additional shell scripts to be run after the main provisioning 
+    script has successfully completed. The paths can be an absolute path or a path relative to the directory containing the `Vagrantfile`. 
+
+An example of these configs in action:
+
+```yaml
+extra_mounts:
+  Projects: ".."
+  C_Drive: "C:/"
+  D_Drive: "D:/"
+extra_scripts:
+  - "../my-configs/scripts/provision.sh"
+```
 
 ## Enable creation of symlinks in shared folders
 
