@@ -31,6 +31,9 @@ module VMConfig
 
   private
 
+  CONFIG_FILE = '.vm-config.yaml'
+  private_constant :CONFIG_FILE
+
   def self.ask(question, default = '', default_text = default)
     print "#{question} #{default_text.empty? ? '' : "(default: #{default_text}): "}"
     $stdin.flush
@@ -80,21 +83,9 @@ module VMConfig
   end
   private_class_method :load_config_file
 
-  CONFIG_FILE = '.vm-config.yaml'
-  private_constant :CONFIG_FILE
-
   class Config
-    attr_reader :serial_version_id
-    attr_reader :vm_name
-    attr_reader :base_memory
-    attr_reader :disk_space
-    attr_reader :processors
-    attr_reader :video_memory
-    attr_reader :monitor_count
-    attr_reader :timezone
-    attr_reader :restart
-    attr_reader :extra_provision_scripts
-    attr_reader :extra_mount_points
+    attr_reader :serial_version_id, :vm_name, :base_memory, :disk_space, :processors, :video_memory, :monitor_count,
+                :timezone, :restart, :extra_scripts, :extra_mounts
 
     def initialize(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, restart)
       @serial_version_id = nil
@@ -106,8 +97,8 @@ module VMConfig
       @monitor_count = monitor_count
       @timezone = timezone
       @restart = restart
-      @extra_provision_scripts = []
-      @extra_mount_points = []
+      @extra_scripts = []
+      @extra_mounts = {}
 
       self.initialize_serial_version_id
     end
@@ -121,7 +112,7 @@ module VMConfig
     end
 
     def to_hash
-      self.own_vars.reduce({}) do |hash, f|
+      self.own_vars.select { |f| f != '@serial_version_id' }.reduce({}) do |hash, f|
         hash[f.delete('@')] = self.instance_variable_get f
         hash
       end
@@ -129,23 +120,27 @@ module VMConfig
 
     def to_s
       fields = own_vars.dup
-      fields.delete('@serial_version_id')
-      body = fields.map { |f| "    #{f.delete('@')}: #{self.instance_variable_get f}" }.join("\n")
+      body = fields.select { |f| f != '@serial_version_id' }
+               .map { |f| "    #{f.delete('@')}: #{self.instance_variable_get f}" }
+               .join("\n")
       "{\n#{body}\n}"
     end
 
     def validate
       failed_msg = 'Error: vm-config file validation failed'
 
-      extra_provision_scripts.each do |path|
+      extra_scripts.each do |path|
         unless File.file?(path)
           abort("#{failed_msg}. Extra provision script not found at path '#{path}'")
         end
       end
 
-      extra_mount_points.map { |mount_point| mount_point['host_dir'] }.each do |host_dir|
-        unless File.directory?(host_dir)
-          abort("#{failed_msg}. Extra mount point cannot be created, host directory does not exist at '#{host_dir}'")
+      extra_mounts.each do |name, path|
+        if name.nil? || name.empty?
+          abort("#{failed_msg}. Extra mount cannot be created, mount name cannot be empty for path '#{path}'")
+        end
+        unless File.directory?(path)
+          abort("#{failed_msg}. Extra mount cannot be created, host directory does not exist at '#{path}'")
         end
       end
     end

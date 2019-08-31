@@ -4,14 +4,15 @@ require_relative 'src/plugins'
 require_relative 'src/vbox_manage'
 require_relative 'src/vm_config'
 require_relative 'src/display'
+require_relative 'src/vars'
 
 Vagrant.require_version ">= 2.0.0"
 
-VBoxManage::ensure_cmd_exists
+Dir.mkdir('tmp') unless File.exists?('tmp')
+
 vm_config = VMConfig::initialize_vm_configuration
 display_info = Display::get_display_info
-env_vars = vm_config.to_hash.merge(display_info).map{|k, v| [k.upcase, v]}.to_h
-has_provisioned = VBoxManage::has_provisioned vm_config.vm_name
+mounts = {'devbox' => '.'}.merge(vm_config.extra_mounts)
 
 Vagrant.configure("2") do |config|
   config.trigger.before :all do |trigger|
@@ -56,14 +57,12 @@ Vagrant.configure("2") do |config|
     vb.customize ['modifyvm', :id, '--draganddrop', 'bidirectional']
     vb.customize ["modifyvm", :id, "--usbxhci", "on"]
 
-    VBoxManage::mount_folders vb, {
-      :"Projects" => "..",
-      :"vagrant-files" => "files",
-      :"vagrant-scripts" => "scripts"
-    } unless has_provisioned
+    VBoxManage::mount_folders vb, mounts
   end
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.provision "shell", run: "always", privileged: false, inline: Vars::prepare_provision_vars(vm_config, display_info, mounts)
 
   if File.exist?("#{ENV['userprofile']}\\.git-credentials") || File.exist?("#{ENV['HOME']}/.git-credentials")
     config.vm.provision "file", run: "always", source: "~/.git-credentials", destination: "~/.git-credentials"
@@ -72,10 +71,10 @@ Vagrant.configure("2") do |config|
   # adds user to vboxsf group so that shared folders can be accessed;
   # kills the ssh daemon to reset the ssh connection and allow user changes to take effect
   config.vm.provision "shell", inline: "adduser vagrant vboxsf && pkill -u vagrant sshd"
-  config.vm.provision "shell", run: "always", privileged: false, env: env_vars, path: "scripts/provision.sh"
+  config.vm.provision "shell", run: "always", privileged: false, path: "scripts/provision.sh"
 
-  vm_config.extra_provision_scripts.each do |path|
-    config.vm.provision "shell", run: "always", privileged: false, env: env_vars, path: path
+  vm_config.extra_scripts.each do |path|
+    config.vm.provision "shell", run: "always", privileged: false, path: path
   end
 
   if vm_config.restart

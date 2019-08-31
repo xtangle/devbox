@@ -12,5 +12,5 @@ if ! installed code; then
   sudo -E apt-get -qq install code
 
   # add desktop icon
-  cp -f "${VAGRANT_FILES}/Desktop/code.desktop" "${HOME}/Desktop"
+  cp -f "${DEVBOX_FILES}/Desktop/code.desktop" "${HOME}/Desktop"
 fi

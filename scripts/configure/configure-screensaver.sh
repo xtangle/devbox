@@ -8,4 +8,4 @@ sudo -E apt-get -qq autoremove
 
 # disable power management and screensaver
 backup "${HOME}/.xsessionrc"
-cp -f "${VAGRANT_FILES}/X/.xsessionrc" "${HOME}"
+cp -f "${DEVBOX_FILES}/X/.xsessionrc" "${HOME}"

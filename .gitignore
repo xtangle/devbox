@@ -5,6 +5,7 @@
 .vagrant/
 bin/
 logs/
+tmp/
 
 taskbar/tmp
 

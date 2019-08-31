@@ -1,35 +1,33 @@
 #!/usr/bin/env bash
 
 function initialize_shared_folders {
-  local vagrant_home=$(eval echo "~vagrant")
-  local vagrant_uid=$(id -u vagrant)
-  local vboxsf_gid=$(getent group vboxsf | cut -d: -f3)
+  local vagrant_home="$(eval echo "~vagrant")"
+  local vagrant_uid="$(id -u vagrant)"
+  local vboxsf_gid="$(getent group vboxsf | cut -d: -f3)"
 
   # wait for shared folders to be mounted
 
   sleep 10
 
-  # unmount existing shared folders
+  echo "re-mounting shared folders..."
+  source "${vagrant_home}/devbox/tmp/provision-vars.sh"
 
-  umount ${vagrant_home}/Projects 2>/dev/null || true
-  umount ${vagrant_home}/vagrant-files 2>/dev/null || true
-  umount ${vagrant_home}/vagrant-scripts 2>/dev/null || true
+  for mount_name in "${!PROVISION_MOUNTS[@]}"; do
+    mount_path="${vagrant_home}/${mount_name}"
+    echo "mounting '${mount_name}' to path '${mount_path}'..."
 
-  # mount shared folders with correct permissions
+    # unmount existing shared folder
+    umount "${mount_path}" 2>/dev/null || true
 
-  mount -t vboxsf -o dmode=777,fmode=777,uid=${vagrant_uid},gid=${vboxsf_gid} Projects ${vagrant_home}/Projects
-  mount -t vboxsf -o dmode=777,fmode=777,uid=${vagrant_uid},gid=${vboxsf_gid} vagrant-files ${vagrant_home}/vagrant-files
-  mount -t vboxsf -o dmode=777,fmode=777,uid=${vagrant_uid},gid=${vboxsf_gid} vagrant-scripts ${vagrant_home}/vagrant-scripts
+    # mount shared folder with correct permissions
+    mount -t vboxsf -o dmode=777,fmode=777,uid=${vagrant_uid},gid=${vboxsf_gid} "${mount_name}" "${mount_path}"
 
-  # unmount and remove any duplicated shared folders in home directory if they still exist
+    # unmount and remove any duplicated shared folder in home directory if they still exist
+    umount "${mount_path}_1" 2>/dev/null || true
+    rm -rf "${mount_path}_1"
 
-  umount ${vagrant_home}/Projects_1 2>/dev/null || true
-  umount ${vagrant_home}/vagrant-files_1 2>/dev/null || true
-  umount ${vagrant_home}/vagrant-scripts_1 2>/dev/null || true
-
-  rm -rf ${vagrant_home}/Projects_1
-  rm -rf ${vagrant_home}/vagrant-files_1
-  rm -rf ${vagrant_home}/vagrant-scripts_1
+    echo "success"
+  done
 }
 export -f initialize_shared_folders 
 

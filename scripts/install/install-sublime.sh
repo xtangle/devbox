@@ -16,5 +16,5 @@ if ! installed subl; then
   sudo update-alternatives --set editor /usr/bin/subl
 
   # add desktop icon
-  cp -f "${VAGRANT_FILES}/Desktop/sublime_text.desktop" "${HOME}/Desktop"
+  cp -f "${DEVBOX_FILES}/Desktop/sublime_text.desktop" "${HOME}/Desktop"
 fi
