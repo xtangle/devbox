@@ -17,7 +17,8 @@ module Vars
       end
     }
 
-    description = "# Variables used for provisioning, source when needed"
-    "printf \"#{description}\n#{setup_cmds.join('\n')}\n\" > \"${HOME}/devbox/tmp/provision-vars.sh\""
+    description = "# NOTE: DO NOT REMOVE.\n# This file contains variables used for provisioning and mounting and is needed when VM starts up.\n# Source this file in scripts when needed."
+    content = "#{description}\n\n#{setup_cmds.join('\n')}\n"
+    "printf \"#{content}\" > \"${HOME}/devbox/out/provision-vars.sh\""
   end
 end

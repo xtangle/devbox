@@ -2,4 +2,4 @@
 
 set -e
 
-sudo -E apt-get -qq install firefox
+sudo -E apt-get -qy install firefox

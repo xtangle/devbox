@@ -3,4 +3,4 @@
 set -e
 
 # remove any unused packages
-sudo -E apt-get -qq autoremove
+sudo -E apt-get -qy autoremove

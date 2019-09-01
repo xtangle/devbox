@@ -3,7 +3,7 @@
 set -e
 
 # install miscellaneous useful command-line tools
-sudo -E apt-get -qq install lynx
+sudo -E apt-get -qy install lynx
 
 # install useful gui configuration software
-sudo -E apt-get -qq install lxappearance obconf
+sudo -E apt-get -qy install lxappearance obconf

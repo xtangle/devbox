@@ -2,4 +2,4 @@
 
 set -e
 
-sudo -E apt-get -qq install libreoffice
+sudo -E apt-get -qy install libreoffice

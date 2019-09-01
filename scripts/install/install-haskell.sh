@@ -3,13 +3,13 @@
 set -e
 
 # install haskell-platform
-if ! installed ghci; then
-  sudo -E apt-get -qq install haskell-platform
-fi
+sudo -E apt-get -qy install haskell-platform
 
 # install stack
 if ! installed stack; then
+  echo ">> Installing Haskell stack"
   wget -qO- https://get.haskellstack.org/ | sh
 else
+  echo ">> Updating Haskell stack"
   stack upgrade
 fi

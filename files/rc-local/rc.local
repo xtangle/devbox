@@ -10,7 +10,7 @@ function initialize_shared_folders {
   sleep 10
 
   echo "re-mounting shared folders..."
-  source "${vagrant_home}/devbox/tmp/provision-vars.sh"
+  source "${vagrant_home}/devbox/out/provision-vars.sh"
 
   for mount_name in "${!PROVISION_MOUNTS[@]}"; do
     mount_path="${vagrant_home}/${mount_name}"
