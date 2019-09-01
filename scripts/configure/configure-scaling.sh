@@ -6,8 +6,11 @@ load_provision_vars
 
 # configure scaling only for high resolution
 if [[ ${PROVISION_DISPLAY_WIDTH} -le 2560 ]]; then
+  echo ">> Display width is ${PROVISION_DISPLAY_WIDTH}, no need to configure scaling"
   exit 0
 fi
+
+echo ">> Display width is ${PROVISION_DISPLAY_WIDTH}, configuring scaling"
 
 # configure global dpi
 backup "${HOME}/.Xresources"

@@ -2,6 +2,4 @@
 
 set -e
 
-if ! installed git; then
-  sudo -E apt-get -qq install git
-fi
+sudo -E apt-get -qy install git

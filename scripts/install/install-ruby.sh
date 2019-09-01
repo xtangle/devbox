@@ -2,6 +2,4 @@
 
 set -e
 
-if ! installed gem; then
-  sudo -E apt-get -qq install ruby-all-dev
-fi
+sudo -E apt-get -qy install ruby-all-dev

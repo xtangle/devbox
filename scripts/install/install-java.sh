@@ -6,9 +6,9 @@ set -e
 if ! installed java; then
   # install Ubuntu's default jdk
   sudo add-apt-repository ppa:openjdk-r/ppa
-  sudo -E apt-get -qq update
-  sudo -E apt-get -qq install default-jdk
+  sudo -E apt-get -qy update
 fi
+sudo -E apt-get -qy install default-jdk
 
 # configure environment variables
 mkdir -p "${HOME}/.rc"

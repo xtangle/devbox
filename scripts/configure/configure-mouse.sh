@@ -9,4 +9,4 @@ set -e
 # update 1: see https://forums.virtualbox.org/viewtopic.php?f=3&t=79002&sid=56b23a50a361230431d5e3ab66352701&start=15#p447951
 
 # install the evdev pointer drivers (which should override libinput)
-sudo -E apt-get -qq install xserver-xorg-core-hwe-18.04 xserver-xorg-input-evdev-hwe-18.04
+sudo -E apt-get -qy install xserver-xorg-core-hwe-18.04 xserver-xorg-input-evdev-hwe-18.04

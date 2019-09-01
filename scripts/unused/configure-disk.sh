@@ -32,4 +32,4 @@ sudo vgextend vagrant-vg /dev/sda3
 sudo lvextend -l +100%FREE /dev/vagrant-vg/root
 sudo resize2fs /dev/vagrant-vg/root
 
-echo "Successfully configured disk size on $(date)" | sudo tee /etc/disk_configured
+echo ">> Successfully configured disk size on $(date)" | sudo tee /etc/disk_configured

@@ -2,4 +2,4 @@
 
 set -e
 
-sudo -E apt-get -qq install erlang
+sudo -E apt-get -qy install erlang

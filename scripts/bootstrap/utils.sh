@@ -51,7 +51,7 @@ function source_in_profile {
 
 function load_provision_vars {
   # shellcheck source=/dev/null
-  source "${HOME}/devbox/tmp/provision-vars.sh"
+  source "${HOME}/devbox/out/provision-vars.sh"
 }
 
 export -f backup

@@ -11,9 +11,10 @@ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 # install yarn
 if ! installed yarn; then
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-  sudo -E apt-get -qq update
-  sudo -E apt-get -qq install --no-install-recommends yarn
+  sudo -E apt-get -qy update
 fi
+
+sudo -E apt-get -qy install --no-install-recommends yarn
 
 # add yarn to PATH
 yarn_bin="$(yarn global bin)"

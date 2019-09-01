@@ -2,6 +2,4 @@
 
 set -e
 
-if ! installed viewnior; then
-  sudo -E apt-get -qq install viewnior
-fi
+sudo -E apt-get -qy install viewnior

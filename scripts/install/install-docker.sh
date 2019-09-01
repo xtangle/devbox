@@ -3,6 +3,7 @@
 set -e
 
 if ! installed docker; then
+  echo ">> Installing docker"
   # add Docker's official GPG key
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
@@ -10,8 +11,8 @@ if ! installed docker; then
   sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
   # install docker
-  sudo -E apt-get -qq update
-  sudo -E apt-get -qq install docker-ce
+  sudo -E apt-get -qy update
+  sudo -E apt-get -qy install docker-ce
 
   # add user to the docker group
   sudo groupadd -f docker

@@ -2,6 +2,4 @@
 
 set -e
 
-if ! installed evince; then
-  sudo -E apt-get -qq install evince
-fi
+sudo -E apt-get -qy install evince
