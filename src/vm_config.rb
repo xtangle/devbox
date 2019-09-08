@@ -16,6 +16,7 @@ module VMConfig
       config = get_config_from_user
       File.write(CONFIG_FILE, config.to_yaml)
       puts "Saved configuration settings to #{CONFIG_FILE}"
+      exit
     end
 
     config.validate
@@ -57,7 +58,7 @@ module VMConfig
     video_memory = ask('What is the video memory in MB?', '128').to_i
     monitor_count = ask('What is the number of monitors?', '1').to_i
     timezone = ask('What is the timezone? (eg. America/Toronto)', 'UTC')
-    restart = yesno('Restart after provisioning? (you can change this later)', 'yes')
+    restart = yesno('Restart after provisioning?', 'yes')
 
     Config.new(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, restart)
   end
