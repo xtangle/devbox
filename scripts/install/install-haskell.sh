@@ -3,7 +3,7 @@
 set -e
 
 # install haskell-platform
-sudo -E apt-get -qy install haskell-platform
+sudo -E apt-get -qy install haskell-platform hoogle
 
 # install stack
 if ! installed stack; then
