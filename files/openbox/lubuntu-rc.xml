@@ -974,6 +974,10 @@
   -->
     <application class="*">
       <focus>yes</focus>
+      <position force="no">
+        <x>center</x>
+        <y>center</y>
+      </position>
     </application>
   </applications>
 </openbox_config>
