@@ -52,6 +52,7 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--vram", vm_config.video_memory]
     vb.customize ["modifyvm", :id, "--monitorcount", vm_config.monitor_count]
     vb.customize ["modifyvm", :id, "--hwvirtex", "on"]
+    vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxsvga"]
     vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
     vb.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
     vb.customize ['modifyvm', :id, '--draganddrop', 'bidirectional']
