@@ -70,7 +70,8 @@ Most, if not all listed software will be upgraded to their most recent version u
 1. Run the command `vagrant up` from the directory of the cloned repository and answer the questions to the interactive prompts.
    - Your answers will be saved in the `.vm-config.yaml` file. This configuration file will be used in future provisions unless the configuration file is outdated or deleted. 
    - Tip: to force prompting the configuration again, either rename or delete the `.vm-config.yaml` file.
-1. (Optional) Create a taskbar item to run `vagrant up` when executed. This can be done by running the batch file `taskbar/CreateTaskbarItem.cmd`.
+1. (Optional) Create a taskbar item to run `vagrant reload` when executed. This can be done by running the batch file `taskbar/CreateTaskbarItem.cmd`.
+   - Note: The `CreateTaskbarItem.cmd` script no longer adds a taskbar icon automatically. Once the script is run, you have to select the created file `taskbar/tmp/TaskbarItem.lnk` and pin it to the taskbar manually.
 
 ## VM Configs
 
