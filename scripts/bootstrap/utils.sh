@@ -21,7 +21,7 @@ function contains {
 }
 
 function load {
-  force=$( [[ "${1}" == "-f" ]] && shift && echo 1 || echo 0 )
+  force=$( [[ "${1}" == "-f" ]] && echo 1 || echo 0 ); (( force )) && shift
   file="${1}"
   # shellcheck source=/dev/null
   function load_file { . "${file}" ;}
