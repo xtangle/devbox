@@ -17,7 +17,6 @@ Software:
 - [Docker & Docker Compose](https://www.docker.com/)
 - [Git](https://git-scm.com/)
 - [Confluent Platform](https://www.confluent.io/product/confluent-platform/)
-- [Input](http://input.fontbureau.com/) and [Roboto](https://fonts.google.com/specimen/Roboto) fonts
 - [Tilda](https://github.com/lanoxx/tilda)
 - [Postman](https://www.getpostman.com/)
 - [Google Chrome](https://www.google.com/chrome/)
@@ -31,6 +30,10 @@ Software:
 - [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [TeXstudio](https://www.texstudio.org/)
+- Additional Fonts: 
+    - [Input](http://input.fontbureau.com/)
+    - [Hack](https://sourcefoundry.org/hack/)
+    - [Roboto](https://fonts.google.com/specimen/Roboto)
 
 Programming languages and tools:
 

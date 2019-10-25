@@ -12,6 +12,14 @@ if ! fc-list | contains "Input-Font"; then
   sudo rm -f Input-Font.zip
 fi
 
+# installs Hack fonts
+if ! fc-list | contains "Hack-Regular"; then
+  echo ">> Installing Hack-Font"
+  cd /usr/local/share/fonts
+  sudo -E apt-get -qy install fonts-hack
+  sudo fc-cache -f .
+fi
+
 # installs Roboto fonts
 if ! fc-list | contains "Roboto-Regular"; then
   echo ">> Installing Roboto-Regular"
