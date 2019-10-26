@@ -10,7 +10,7 @@ if ! installed confluent; then
   wget -qO - https://packages.confluent.io/deb/3.3/archive.key | sudo apt-key add -
 
   # set up the stable repository
-  sudo add-apt-repository "deb [arch=amd64] https://packages.confluent.io/deb/3.3 stable main"
+  sudo -E add-apt-repository "deb [arch=amd64] https://packages.confluent.io/deb/3.3 stable main"
 
   # install confluent-platform
   echo ">> Installing confluent-platform-${CONFLUENT_VERSION} ..."

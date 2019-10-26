@@ -30,6 +30,7 @@ Software:
 - [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [TeXstudio](https://www.texstudio.org/)
+- [Remmina](https://remmina.org/)
 - Additional Fonts: 
     - [Input](http://input.fontbureau.com/)
     - [Hack](https://sourcefoundry.org/hack/)

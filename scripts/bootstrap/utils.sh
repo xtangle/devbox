@@ -36,6 +36,38 @@ function verlt {
   dpkg --compare-versions "${1}" "lt" "${2}"
 }
 
+function release_lock_file {
+  force=$( [[ "${1}" == "-f" ]] && echo 1 || echo 0 ); (( force )) && shift
+  lock_file="${1}"
+  echo ">> looking for processes using the lock file: ${lock_file}"
+  if [[ ! -f "${lock_file}" ]]; then
+    echo ">> lock file not found, proceeding"
+    return
+  fi
+  mapfile -t pids < <(sudo lsof "${lock_file}" | tail +2 | tr -s ' ' | cut -d' ' -f2)
+  if [[ ${#pids[@]} -eq 0 ]]; then
+    echo ">> no processes found"
+    return
+  fi
+  for pid in "${pids[@]}"; do
+    echo ">> killing process: $(ps -p "${pid}" -o comm=) (pid: ${pid})"
+    i=0
+    while sudo kill "${pid}" 2>/dev/null; do 
+      sleep 1
+      let i=i+1
+      if (( i >= 30 )); then
+        if (( force )); then
+          echo ">> warning: process could not be killed in ${i} seconds, killing process forcefully"
+          sudo kill -9 "${pid}"
+        else
+          echo ">> warning: process could not be killed in ${i} seconds"
+        fi
+        break
+      fi
+    done
+  done
+}
+
 function source_in_profile {
   source_file="${1}"
   source_cmd="[[ -s \"${source_file}\" ]] && source \"${source_file}\""
@@ -59,5 +91,6 @@ export -f installed
 export -f contains
 export -f load
 export -f verlt
+export -f release_lock_file
 export -f source_in_profile
 export -f load_provision_vars

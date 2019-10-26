@@ -5,7 +5,7 @@ set -e
 # install java jdk
 if ! installed java; then
   # install Ubuntu's default jdk
-  sudo add-apt-repository ppa:openjdk-r/ppa
+  sudo -E add-apt-repository ppa:openjdk-r/ppa
   sudo -E apt-get -qy update
 fi
 sudo -E apt-get -qy install default-jdk

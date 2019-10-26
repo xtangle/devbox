@@ -21,6 +21,9 @@ APT::Periodic::Update-Package-Lists "0";
 APT::Periodic::Unattended-Upgrade "0";
 EOL
 
+# kill currently interfering processes
+release_lock_file -f /var/lib/dpkg/lock-frontend
+
 # update system
 sudo -E apt-get -qy update
 sudo -E apt-get -qy dist-upgrade --fix-missing

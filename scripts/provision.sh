@@ -56,6 +56,7 @@ run install-meld.sh
 run install-dbeaver.sh
 run install-intellij.sh
 run install-vscode.sh
+run install-remmina.sh
 run install-misc.sh
 
 run post-install.sh
