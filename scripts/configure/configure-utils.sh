@@ -2,6 +2,9 @@
 
 set -e
 
+# kill currently interfering processes
+release_lock_file -f /var/lib/dpkg/lock-frontend
+
 # install packages to allow apt to use a repository over https
 sudo -E apt-get -qy install apt-transport-https ca-certificates curl software-properties-common
 

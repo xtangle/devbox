@@ -4,6 +4,9 @@ set -e
 
 load_provision_vars
 
+# kill currently interfering processes
+release_lock_file -f /var/lib/dpkg/lock-frontend
+
 # installs lubuntu desktop core
 if ! installed lubuntu-core; then
   sudo -E apt-get -qy install --no-install-recommends lubuntu-core

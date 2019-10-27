@@ -2,6 +2,9 @@
 
 set -e
 
+# kill currently interfering processes
+release_lock_file -f /var/lib/dpkg/lock-frontend
+
 # There was a problem with Ubuntu 18.04 where the mouse wheel won't register while the mouse cursor is moving.
 # The bug seems to be in the libinput driver, and switching the pointer driver to evdev seems to solve the problem.
 # See https://forums.virtualbox.org/viewtopic.php?f=3&t=79002#p401248
