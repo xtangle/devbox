@@ -5,6 +5,7 @@ set -e
 # check installed version
 if ! installed mvn; then
   installed_version=''
+  echo ">> Maven is not installed, installing"
 else
   installed_version="$(mvn --version | head -1 | sed -n "s/^.*Apache Maven \([0-9\.]*\).*$/\1/p")"
   echo ">> Installed maven version: ${installed_version}"
@@ -12,8 +13,8 @@ fi
 
 # get latest version
 mvn_url="https://www-us.apache.org/dist/maven"
-latest_major_ver="$(wget -q -O- https://www-us.apache.org/dist/maven | grep 'href="maven-.*"' | sed -n 's/.*href="maven-\([[:digit:]]*\).*/\1/p' | sort -r | head -1)"
-latest_version="$(curl -s "${mvn_url}/maven-${latest_major_ver}/" | grep '</a>' | tail -1 | sed -n "s/^.*<a.*>\(.*\)\/<\/a>.*$/\1/p")"
+latest_major_ver="$(wget -q -O- https://www-us.apache.org/dist/maven | grep 'href="maven-.*"' | sed -n 's/.*href="maven-\([[:digit:]]*\).*/\1/p' | sort -r | head -1 && :)"
+latest_version="$(curl -s "${mvn_url}/maven-${latest_major_ver}/" | grep '</a>' | tail -1 | sed -n "s/^.*<a.*>\(.*\)\/<\/a>.*$/\1/p" && :)"
 if [[ -z "${latest_version}" ]]; then
   echo ">> Unable to get latest version of maven" > /dev/stderr
   exit 1

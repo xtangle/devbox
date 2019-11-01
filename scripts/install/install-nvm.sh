@@ -14,7 +14,7 @@ else
 fi
 
 # get latest version
-latest_version="$(wget -qO- https://github.com/creationix/nvm/releases/latest | grep -oPm 1 'releases/tag/v\K([.0-9]*)(?=")')"
+latest_version="$(wget -qO- https://github.com/creationix/nvm/releases/latest | grep -oPm 1 'releases/tag/v\K([.0-9]*)(?=")' && :)"
 if [[ -z "${latest_version}" ]]; then
   echo ">> Unable to get latest version of nvm" > /dev/stderr
   exit 1

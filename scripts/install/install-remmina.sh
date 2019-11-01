@@ -4,7 +4,7 @@ set -e
 
 # installs Remmina
 if ! installed remmina; then
-  sudo -E apt-add-repository ppa:remmina-ppa-team/remmina-next
+  sudo -E apt-add-repository -y ppa:remmina-ppa-team/remmina-next
   sudo -E apt-get -qy update
 fi
 

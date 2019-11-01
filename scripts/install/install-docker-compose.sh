@@ -8,13 +8,14 @@ set -e
 # check installed version
 if ! installed docker-compose; then
   installed_version=''
+  echo ">> Docker-compose is not installed, installing"
 else
   installed_version="$(docker-compose --version | grep -Po '\K\d+\.\d+\.\d+')"
   echo ">> Installed docker-compose version: ${installed_version}"
 fi
 
 # get latest version
-latest_version="$(curl -sS https://api.github.com/repos/docker/compose/releases/latest | jq .name -r)"
+latest_version="$(curl -sS https://api.github.com/repos/docker/compose/releases/latest | jq .name -r && :)"
 if [[ -z "${latest_version}" ]]; then
   echo ">> Unable to get latest version of docker-compose" > /dev/stderr
   exit 1
