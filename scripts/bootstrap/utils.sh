@@ -23,12 +23,9 @@ function contains {
 function load {
   force=$( [[ "${1}" == "-f" ]] && echo 1 || echo 0 ); (( force )) && shift
   file="${1}"
-  # shellcheck source=/dev/null
-  function load_file { . "${file}" ;}
-  if (( force )); then
-    load_file
-  else
-    [[ -s "${file}" ]] && load_file
+  if (( force )) || [[ -s "${file}" ]]; then
+    # shellcheck source=/dev/null
+    . "${file}"
   fi
 }
 

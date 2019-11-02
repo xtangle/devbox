@@ -12,6 +12,10 @@ if ! installed lubuntu-core; then
   sudo -E apt-get -qy install --no-install-recommends lubuntu-core
 fi
 
+# create Desktop directory
+echo ">> Creating Desktop directory"
+mkdir -p "${HOME}/Desktop"
+
 # configure openbox
 echo ">> Configuring openbox"
 mkdir -p "${HOME}/.config/openbox"

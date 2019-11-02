@@ -1,21 +1,29 @@
 require_relative './platform'
 
 module VBoxManage
+  def self.box_exists?(vm_name)
+    system("\"#{VBOX_MANAGE_CMD}\" showvminfo #{vm_name}", out: File::NULL, err: File::NULL)
+  end
+
   def self.mount_folders(vb, name_path_hash)
-    sf_names = list_shared_folder_names(vb.name)
-    vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/SharedFolders/MountPrefix", ""]
-    vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/SharedFolders/MountDir", "/home/vagrant"]
-    name_path_hash.each do |name, path|
-      if sf_names.include?(name)
-        vb.customize ["sharedfolder", "remove", :id, "--name", name]
+    if box_exists?(vb.name)
+      sf_names = list_shared_folder_names(vb.name)
+      vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/SharedFolders/MountPrefix", ""]
+      vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/SharedFolders/MountDir", "/home/vagrant"]
+      name_path_hash.each do |name, path|
+        if sf_names.include?(name)
+          vb.customize ["sharedfolder", "remove", :id, "--name", name]
+        end
+        vb.customize ["sharedfolder", "add", :id, "--name", name, "--hostpath", host_mount_path(path), "--automount"]
+        vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/#{name}", "1"]
       end
-      vb.customize ["sharedfolder", "add", :id, "--name", name, "--hostpath", host_mount_path(path), "--automount"]
-      vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/#{name}", "1"]
     end
   end
 
   def self.configure_resolution(vm_name, display_info)
-    system("\"#{VBOX_MANAGE_CMD}\" controlvm #{vm_name} setevideomodehint #{display_info[:display_width]} #{display_info[:display_height]} #{display_info[:display_color_depth]} #{hide_cmd_output}")
+    if box_exists?(vm_name)
+      system("\"#{VBOX_MANAGE_CMD}\" controlvm #{vm_name} setevideomodehint #{display_info[:display_width]} #{display_info[:display_height]} #{display_info[:display_color_depth]} #{hide_cmd_output}")
+    end
   end
 
   private

@@ -21,8 +21,9 @@ module Vars
     content = "#{description}\n\n#{setup_cmds.join('\n')}\n"
 
     <<-EOS
-      mkdir -p "${HOME}/devbox/out"
-      printf "#{content}" > "${HOME}/devbox/out/provision-vars.sh"
+      mkdir -p "/home/vagrant/devbox/out"
+      printf "#{content}" > "/home/vagrant/devbox/out/provision-vars.sh"
+      chown -R vagrant "/home/vagrant/devbox/out"
     EOS
   end
 end

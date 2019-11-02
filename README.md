@@ -71,7 +71,7 @@ Most, if not all listed software will be upgraded to their most recent version u
 1. Ensure all prerequisites have been met (see previous section).
 1. Clone this repo to your host machine. 
    - A shared folder will be created linking this directory from the host machine to `${HOME}/vagrant` in the guest machine. 
-1. Run the command `vagrant up` from the directory of the cloned repository and answer the questions to the interactive prompts.
+1. Run the command `vagrant up --provision` from the directory of the cloned repository and answer the questions to the interactive prompts.
    - Your answers will be saved in the `.vm-config.yaml` file. This configuration file will be used in future provisions unless the configuration file is outdated or deleted. 
    - Tip: to force prompting the configuration again, either rename or delete the `.vm-config.yaml` file.
 1. (Optional) Create a taskbar item to run `vagrant reload` when executed. This can be done by running the batch file `taskbar/CreateTaskbarItem.cmd`.

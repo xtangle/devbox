@@ -62,7 +62,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
-  config.vm.provision "shell", run: "always", privileged: false, inline: Vars::prepare_provision_vars(vm_config, display_info, mounts)
+  config.vm.provision "shell", run: "always", inline: Vars::prepare_provision_vars(vm_config, display_info, mounts)
 
   if File.exist?("#{ENV['userprofile']}\\.git-credentials") || File.exist?("#{ENV['HOME']}/.git-credentials")
     config.vm.provision "file", run: "always", source: "~/.git-credentials", destination: "~/.git-credentials"

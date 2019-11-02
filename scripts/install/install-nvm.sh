@@ -8,6 +8,7 @@ load "${HOME}/.nvm/nvm.sh"
 # check installed version
 if ! installed nvm; then
   installed_version=''
+  echo ">> Nvm is not installed, installing"
 else
   installed_version="$(nvm --version)"
   echo ">> Installed nvm version: ${installed_version}"
