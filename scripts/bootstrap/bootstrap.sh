@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function bootstrap {
-  export DEVBOX_DIR="${HOME}/devbox"
+  export DEVBOX_DIR="${HOME}/.provision"
   export DEVBOX_FILES="${DEVBOX_DIR}/files"
   export DEVBOX_SCRIPTS="${DEVBOX_DIR}/scripts"
 

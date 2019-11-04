@@ -19,11 +19,14 @@ module Vars
 
     description = "# NOTE: DO NOT REMOVE.\n# This file contains variables used for provisioning and mounting and is needed when VM starts up.\n# Source this file in scripts when needed."
     content = "#{description}\n\n#{setup_cmds.join('\n')}\n"
+    file = "/home/vagrant/.load-provision-vars.sh"
 
     <<-EOS
-      mkdir -p "/home/vagrant/devbox/out"
-      printf "#{content}" > "/home/vagrant/devbox/out/provision-vars.sh"
-      chown -R vagrant "/home/vagrant/devbox/out"
+      printf "#{content}" > "#{file}"
+      chown vagrant "#{file}"
+      chmod 775 "#{file}"
+      mkdir -p "/vagrant/out"
+      cp -f "#{file}" "/vagrant/out"
     EOS
   end
 end

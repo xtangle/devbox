@@ -25,7 +25,7 @@ APT::Periodic::Unattended-Upgrade "0";
 EOL
 
 # update system
-sudo -E apt-get -qy update
+sudo -E apt-get -qy update --fix-missing
 sudo -E apt-get -qy dist-upgrade --fix-missing
 sudo -E apt-get -qy autoremove
 sudo -E snap refresh
