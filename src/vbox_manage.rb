@@ -6,17 +6,15 @@ module VBoxManage
   end
 
   def self.mount_folders(vb, name_path_hash)
-    if box_exists?(vb.name)
-      sf_names = list_shared_folder_names(vb.name)
-      vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/SharedFolders/MountPrefix", ""]
-      vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/SharedFolders/MountDir", "/home/vagrant"]
-      name_path_hash.each do |name, path|
-        if sf_names.include?(name)
-          vb.customize ["sharedfolder", "remove", :id, "--name", name]
-        end
-        vb.customize ["sharedfolder", "add", :id, "--name", name, "--hostpath", host_mount_path(path), "--automount"]
-        vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/#{name}", "1"]
+    sf_names = box_exists?(vb.name) ? list_shared_folder_names(vb.name) : []
+    vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/SharedFolders/MountPrefix", ""]
+    vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/SharedFolders/MountDir", "/home/vagrant"]
+    name_path_hash.each do |name, path|
+      if sf_names.include?(name)
+        vb.customize ["sharedfolder", "remove", :id, "--name", name]
       end
+      vb.customize ["sharedfolder", "add", :id, "--name", name, "--hostpath", host_mount_path(path), "--automount"]
+      vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/#{name}", "1"]
     end
   end
 

@@ -21,8 +21,8 @@ echo ">> Waiting for rc-local.service to finish mounting..."
 sleep 6
 
 if [[ -d "${HOME}/.provision" ]]; then
-  echo ">> Done"
+  echo ">> Successfully mounted shared folders"
 else
-  echo ">> Error: Unable to mount"
+  echo ">> Error: Unable to mount shared folders"
   exit 1
 fi
