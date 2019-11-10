@@ -1,2 +1,0 @@
-xset s off  # turns off default screensaver
-xset -dpms  # turns off default standby, hibernate
