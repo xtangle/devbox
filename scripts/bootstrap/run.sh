@@ -2,19 +2,14 @@
 
 # shellcheck disable=2155
 
-function reset_results_file {
-  if [[ -f "${RESULTS_FILE}" ]]; then
-    rm -f "${RESULTS_FILE}"
-  fi
-  echo 'Script name,SHA1 checksum,Timestamp,Status code' > "${RESULTS_FILE}"
-}
-
+# unused
 function clear_logs_dir {
   if [[ -d "${LOGS_DIR}" ]]; then
     rm -rf "${LOGS_DIR}"
   fi
 }
 
+# unused
 function print_results {
   local failed_installs=$(grep -P ",(?!0)\d*$" "${RESULTS_FILE}" | cut -d',' -f1)
   local -i status
@@ -31,20 +26,28 @@ function print_results {
   return ${status}
 }
 
+function prepare_results_file {
+  if [[ ! -f "${RESULTS_FILE}" ]]; then
+    echo 'Script path,SHA1 checksum,Timestamp,Status code' > "${RESULTS_FILE}"
+  fi
+}
+
 function run {
-  local script="${1}"
-  local script_path="$(command -v "${script}")"
-  local log_file="${script%.*}.log"
+  local step="${1}"
+  local script_path="${2}"
+  local script_name="$(basename "${script_path}" | cut -f 1 -d '.')"
+  local script_tag="[${step}] [${script_name}]"
+  local log_path="${LOGS_DIR}/${step}/${script_name%.*}.log"
   local version="$(sha1sum "${script_path}" | cut -d' ' -f1)"
-  local args=( "${@:2}" )
+  local args=( "${@:3}" )
 
   load_provision_vars
-  mkdir -p "${LOGS_DIR}"
-  echo ">> [${script}] Executing script..."
-  "${script}" "${args[@]}" > "${LOGS_DIR}/${log_file}" 2>&1
+  prepare_results_file
+  mkdir -p "$(dirname "${log_path}")"
+  echo ">> ${script_tag} Executing script..."
+  "${script_path}" "${args[@]}" > "${log_path}" 2>&1
   local status=${?}
   local timestamp=$(TZ=${PROVISION_TIMEZONE:-$(cat /etc/timezone)} date +'%Y-%m-%d %H:%M:%S %Z%z')
-  sed -i "/^${script}/d" "${RESULTS_FILE}"
-  echo "${script},${version},${timestamp},${status}" >> "${RESULTS_FILE}"
-  echo ">> [${script}] Script exited with status code ${status}" > "$( (( status == 0 )) && echo /dev/stdout || echo /dev/stderr )"
+  echo "${script_path},${version},${timestamp},${status}" >> "${RESULTS_FILE}"
+  echo ">> ${script_tag} Script exited with status code ${status}" > "$( (( status == 0 )) && echo /dev/stdout || echo /dev/stderr )"
 }

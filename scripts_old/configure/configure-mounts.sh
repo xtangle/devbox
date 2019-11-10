@@ -18,7 +18,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart rc-local.service
 
 echo ">> Waiting for rc-local.service to finish mounting..."
-sleep 6
+sleep 5
 
 if [[ -d "${HOME}/.provision" ]]; then
   echo ">> Successfully mounted shared folders"

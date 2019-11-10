@@ -2,6 +2,8 @@
 
 set -e
 
+source "${HOME}/.provision/scripts/bootstrap/bootstrap.sh"
+
 # kill currently interfering processes
 release_lock_file -f /var/lib/dpkg/lock-frontend
 

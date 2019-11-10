@@ -7,7 +7,7 @@ function initialize_shared_folders {
 
   # wait for shared folders to be mounted
 
-  sleep 5
+  sleep 3
 
   echo "re-mounting shared folders..."
   source "${vagrant_home}/.load-provision-vars.sh"

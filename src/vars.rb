@@ -1,6 +1,10 @@
+require_relative './utils'
+
 module Provision
   module Vars
-    def self.create_provision_vars(vm_config, display_info, mounts)
+    def self.create_provision_vars(vm_config)
+      display_info = Utils::get_display_info
+      mounts = {'.provision' => '.'}.merge(vm_config.extra_mounts)
       [*vm_config.to_hash, *display_info, *{'mounts' => mounts}].to_h
     end
 

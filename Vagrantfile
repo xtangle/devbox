@@ -3,18 +3,14 @@
 require_relative 'src/plugins'
 require_relative 'src/vbox_manage'
 require_relative 'src/vm_config'
-require_relative 'src/display'
+require_relative 'src/utils'
 require_relative 'src/vars'
 require_relative 'src/runner'
 
 Vagrant.require_version ">= 2.0.0"
 
-Dir.mkdir('tmp') unless File.exists?('tmp')
-
 vm_config = Provision::VMConfig::initialize_vm_configuration
-display_info = Provision::Display::get_display_info
-mounts = {'.provision' => '.'}.merge(vm_config.extra_mounts)
-provision_vars = Provision::Vars::create_provision_vars(vm_config, display_info, mounts)
+provision_vars = Provision::Vars::create_provision_vars(vm_config)
 
 Vagrant.configure("2") do |config|
   config.trigger.before :all do |trigger|
@@ -23,6 +19,7 @@ Vagrant.configure("2") do |config|
 
   config.trigger.before :up, :reload, :provision do |trigger|
     trigger.ruby {Provision::VMConfig::print_configs}
+    Provision::Utils::clean_output_dir
   end
 
   config.trigger.before :up do |trigger|
@@ -58,8 +55,7 @@ Vagrant.configure("2") do |config|
     vb.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
     vb.customize ['modifyvm', :id, '--draganddrop', 'bidirectional']
     vb.customize ["modifyvm", :id, "--usbxhci", "on"]
-
-    Provision::VBoxManage::mount_folders vb, mounts
+    Provision::VBoxManage::mount_folders vb, provision_vars['mounts']
   end
 
   Provision::Runner::run(:prepare, config, provision_vars)

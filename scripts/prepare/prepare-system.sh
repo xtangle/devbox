@@ -2,6 +2,8 @@
 
 set -e
 
+source "${HOME}/.provision/scripts/bootstrap/bootstrap.sh"
+
 load_provision_vars
 
 # kill currently interfering processes
