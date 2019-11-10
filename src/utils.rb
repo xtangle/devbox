@@ -20,8 +20,13 @@ module Provision
     end
 
     def self.clean_output_dir
-      FileUtils.remove_dir('out')
-      Dir.mkdir('out')
+      FileUtils.rm_rf(Dir.glob('out/*')) if File.directory?('out')
+    end
+
+    def self.load_external_steps(external_steps)
+      external_steps.each do |script|
+        require(File.expand_path(script))
+      end
     end
 
     def self.provision_script(config, step, script)

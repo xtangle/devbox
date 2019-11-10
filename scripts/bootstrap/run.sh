@@ -41,7 +41,6 @@ function run {
   local version="$(sha1sum "${script_path}" | cut -d' ' -f1)"
   local args=( "${@:3}" )
 
-  load_provision_vars
   prepare_results_file
   mkdir -p "$(dirname "${log_path}")"
   echo ">> ${script_tag} Executing script..."

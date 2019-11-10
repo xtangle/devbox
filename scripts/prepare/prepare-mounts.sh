@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+source bootstrap-devbox
 
 # the shared folders needs to be remounted on every startup to change ownership from root to vagrant.
 

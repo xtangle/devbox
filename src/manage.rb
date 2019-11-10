@@ -1,7 +1,7 @@
 require_relative './platform'
 
 module Provision
-  module VBoxManage
+  module Manage
     def self.box_exists?(vm_name)
       system("\"#{VBOX_MANAGE_CMD}\" showvminfo #{vm_name}", out: File::NULL, err: File::NULL)
     end

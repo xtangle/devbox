@@ -4,7 +4,7 @@ require 'yaml'
 require 'digest/sha1'
 
 module Provision
-  module VMConfig
+  module Config
     def self.initialize_vm_configuration
       trap('INT') do
         abort "\nAborted VM configuration."
@@ -87,7 +87,7 @@ module Provision
 
     class Config
       attr_reader :serial_version_id, :vm_name, :base_memory, :disk_space, :processors, :video_memory, :monitor_count,
-                  :timezone, :restart, :extra_scripts, :extra_mounts
+                  :timezone, :restart, :extra_mounts, :external_steps
 
       def initialize(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, restart)
         @serial_version_id = nil
@@ -99,8 +99,8 @@ module Provision
         @monitor_count = monitor_count
         @timezone = timezone
         @restart = restart
-        @extra_scripts = []
         @extra_mounts = {}
+        @external_steps = []
 
         self.initialize_serial_version_id
       end
@@ -131,12 +131,6 @@ module Provision
       def validate
         failed_msg = 'Error: vm-config file validation failed'
 
-        extra_scripts.each do |path|
-          unless File.file?(path)
-            abort("#{failed_msg}. Extra provision script not found at path '#{path}'")
-          end
-        end
-
         extra_mounts.each do |name, path|
           if name.nil? || name.empty?
             abort("#{failed_msg}. Extra mount cannot be created, mount name cannot be empty for path '#{path}'")
@@ -145,11 +139,18 @@ module Provision
             abort("#{failed_msg}. Extra mount cannot be created, host directory does not exist at '#{path}'")
           end
         end
+
+        external_steps.each do |path|
+          unless File.file?(path)
+            abort("#{failed_msg}. External provision steps file not found at path '#{path}'")
+          end
+        end
       end
 
       def self.serial_version_id
         self.new(*Array.new(self.instance_method(:initialize).arity, '')).serial_version_id
       end
     end
+    private_constant :Config
   end
 end
