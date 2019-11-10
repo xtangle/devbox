@@ -32,5 +32,9 @@ module Provision
     def self.provision_script(config, step, script)
       config.vm.provision "shell", privileged: false, path: "scripts/provision.sh", args: [step, script]
     end
+
+    def self.provision_file(config, host_src, guest_dest)
+      config.vm.provision "file", source: host_src, destination: guest_dest if File.exist?(File.expand_path(host_src))
+    end
   end
 end

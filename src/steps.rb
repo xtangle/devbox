@@ -9,14 +9,11 @@ module Provision
       config.vm.provision "shell", inline: "adduser vagrant vboxsf && pkill -u vagrant sshd"
       config.vm.provision "shell", inline: Vars::prepare_provision_vars(provision_vars)
 
+      Utils::provision_file(config, '~/.git-credentials', '~/.git-credentials')
       Utils::provision_script(config, 'prepare', '${HOME}/.provision/scripts/prepare/prepare-devbox.sh')
       Utils::provision_script(config, 'prepare', '${HOME}/.provision/scripts/prepare/prepare-mounts.sh')
       Utils::provision_script(config, 'prepare', '${HOME}/.provision/scripts/prepare/prepare-system.sh')
       Utils::provision_script(config, 'prepare', '${HOME}/.provision/scripts/prepare/prepare-utils.sh')
-
-      if File.exist?("#{ENV['userprofile']}\\.git-credentials") || File.exist?("#{ENV['HOME']}/.git-credentials")
-        config.vm.provision "file", source: "~/.git-credentials", destination: "~/.git-credentials"
-      end
     end
 
     def self.install(config, provision_vars)
