@@ -21,12 +21,6 @@ module Provision
       FileUtils.rm_rf(Dir.glob('out/*')) if File.directory?('out')
     end
 
-    def self.load_external_steps(external_steps)
-      external_steps.each do |script|
-        require(File.expand_path(script))
-      end
-    end
-
     def self.provision_script(config, step, script)
       config.vm.provision "shell", privileged: false, path: "scripts/provision.sh", args: [step, script]
     end

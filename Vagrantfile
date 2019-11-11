@@ -11,7 +11,6 @@ Vagrant.require_version ">= 2.0.0"
 FileUtils.mkdir_p('out')
 vm_config = Provision::Config::initialize_vm_configuration
 provision_vars = Provision::Vars::create_provision_vars(vm_config)
-Provision::Utils::load_external_steps(provision_vars['external_steps'])
 
 Vagrant.configure("2") do |config|
   config.vagrant.plugins = %w( vagrant-disksize vagrant-vbguest )
@@ -59,9 +58,6 @@ Vagrant.configure("2") do |config|
     Provision::Manage::mount_folders vb, provision_vars['mounts']
   end
 
-  Provision::Runner::run(:prepare, config, provision_vars)
-  Provision::Runner::run(:install, config, provision_vars)
-  Provision::Runner::run(:configure, config, provision_vars)
-  Provision::Runner::run(:cleanup, config, provision_vars)
-
+  Provision::Runner::load_extra_steps(provision_vars['extra_steps'])
+  Provision::Runner::run(config, provision_vars)
 end

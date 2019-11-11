@@ -2,24 +2,27 @@ require_relative 'steps'
 
 module Provision
   module Runner
-    def self.run(stage, *args)
-      step = stage
-      pre_step = "pre_#{step.to_s}".to_sym
-      post_step = "post_#{step.to_s}".to_sym
-
-      load_step_if_exist(pre_step, *args)
-      load_step_if_exist(step, *args)
-      load_step_if_exist(post_step, *args)
+    STEPS = [:prepare, :install, :configure, :cleanup].flat_map do |step|
+      ["pre_#{step.to_s}".to_sym, step, "post_#{step.to_s}".to_sym]
     end
 
-    private
-
-    def self.load_step_if_exist(step, *args)
-      if Steps::methods(false).include? step
-        Steps::public_send(step, *args)
-        puts "Loaded step '#{step.to_s}' in provisioner"
+    STEPS.each do |step|
+      unless Steps::methods(false).include?(step)
+        Steps::define_singleton_method(step, &proc{ |a, b| })
       end
     end
-    private_class_method :load_step_if_exist
+
+    def self.run(*args)
+      STEPS.each do |step|
+        Steps::public_send(step, *args)
+      end
+    end
+
+    def self.load_extra_steps(extra_steps)
+      extra_steps.each do |mod, script|
+        require(File.expand_path(script))
+        Steps::singleton_class::prepend Object.const_get("Provision::#{mod}")
+      end
+    end
   end
 end

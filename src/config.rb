@@ -86,7 +86,7 @@ module Provision
 
     class Config
       attr_reader :serial_version_id, :vm_name, :base_memory, :disk_space, :processors, :video_memory, :monitor_count,
-                  :timezone, :extra_mounts, :external_steps
+                  :timezone, :extra_mounts, :extra_steps
 
       def initialize(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone)
         @serial_version_id = nil
@@ -98,7 +98,7 @@ module Provision
         @monitor_count = monitor_count
         @timezone = timezone
         @extra_mounts = {}
-        @external_steps = []
+        @extra_steps = []
 
         self.initialize_serial_version_id
       end
@@ -138,9 +138,12 @@ module Provision
           end
         end
 
-        external_steps.each do |path|
+        extra_steps.each do |name, path|
+          if name.nil? || name.empty?
+            abort("#{failed_msg}. Module name in extra steps cannot be empty")
+          end
           unless File.file?(path)
-            abort("#{failed_msg}. External provision steps file not found at path '#{path}'")
+            abort("#{failed_msg}. Extra steps file not found at path '#{path}'")
           end
         end
       end

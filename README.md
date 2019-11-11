@@ -73,7 +73,7 @@ All listed software will be upgraded to their most recent version as part of the
     - Responses to the answers will be saved in the `.vm-config.yaml` file. This configuration file will be used in future provisions unless it is either outdated or deleted. 
     - Tip: to force prompting the configuration again, either rename or delete the `.vm-config.yaml` file.
 1. Review the contents in `.vm-config.yaml` file. You will notice there will be a couple of extra properties there that were not asked, 
-    such as `extra_mounts` and `external_steps`. You have the option to configure them now by editing the file directly. They are covered in detail in the [VM Configs](#vm-configs) section.
+    such as `extra_mounts` and `extra_steps`. You have the option to configure them now by editing the file directly. They are covered in detail in the [VM Configs](#vm-configs) section.
 1. Run the command `vagrant up --provision` again. This time, you will not be asked to provide the configuration again.
     - Provisioning will now begin. A summary of the each step will be printed to the console. More detailed output information such as logs are available in the `out` directory.
 1. (Optional) Create a taskbar item to run `vagrant reload` when executed. This can be done by running the batch file `taskbar/CreateTaskbarItem.cmd`.
@@ -85,16 +85,19 @@ The `.vm-config.yaml` file stores configuration for your provisioned VM. This fi
 answered questions during initial setup on provisioning. In this section, we will describe additional properties
 you can manually add to this file. These are listed below:
 
-- `extra_mounts` - An object with mount names as keys and mount paths as values. Mounts created this way will automatically be configured so that the `vagrant` user have full access to the contents in the mount.
+- `extra_mounts` - An object with mount names as keys and mount paths as values. Mounts created this way will automatically be configured so that the `vagrant` 
+    user have full permission (read, write, execute) to the contents in the mount.
     - The mount name is a unique identifier of the mount and specifies the mount point in the guest machine (mount points will be created on `${HOME}/<name>`).
     - The mount path is a directory on the host machine. It can be an absolute path or a path relative to the directory containing the `Vagrantfile`.
     
-- `external_steps` - A list of strings containing paths (on the host machine) to additional ruby files containing additional provisioning steps to be run.
+- `extra_steps` - An object with keys containig module names and values containing paths (on the host machine) to additional ruby files defining extra provisioning steps.
+    The ruby file *must* define a nested module under the `Provision` module, where the sub-module name is the same key of the key-value pair in the config object.
     The paths can be an absolute path or a path relative to the directory containing the `Vagrantfile`. 
-    - Steps *must* be defined in a nested Ruby module under `Provision.Steps`.
-    - Steps may be defined in a method named: `pre_<stage>`, or `post_<stage>`, where `<stage>` is one of: `prepare`, `install`, `configure`, or `cleanup`.
+    - Steps should be defined as instance methods named: `pre_<stage>`, `<stage>`, or `post_<stage>`, where `<stage>` can be one of: 
+        - `prepare`, `install`, `configure`, or `cleanup`
     - The Vagrant config is passed to these methods as the first argument, and a hash containing provisioning variables is passed as the second argument.
-    - For examples, see source codes for the default steps [here](src/steps.rb) and sample external steps [here](https://github.com/xtangle/my-configs/blob/master/src/steps.rb).
+    - The `super` keyword should be called in these methods so that the existing tasks in the step are not lost (unless you want to overwrite the step entirely).
+    - For examples, see source codes for the default steps [here](src/steps.rb) and sample extra steps [here](https://github.com/xtangle/my-configs/blob/master/src/steps.rb).
 
 An example of these 'extra' configs is shown below:
 
@@ -103,29 +106,33 @@ extra_mounts:
   Projects: ".."
   C_Drive: "C:/"
   D_Drive: "D:/"
-extra_scripts:
-  - "../my-configs/src/steps.rb"
+extra_steps:
+  MySteps: "../my-configs/src/steps.rb"
 ```
 
 The contents of the file `"../my-configs/src/steps.rb"` can be for example:
 
 ```ruby
 module Provision
-  module Steps
-    def self.pre_prepare(config, provision_vars)
-      Utils::provision_file(config, '~/.rubyrc', '~/.rubyrc')
+  module MySteps
+    def self.pre_prepare(config, provision_vars)  
+      super
+      config.vm.provision "shell", inline: "echo 'runs before the `prepare` step'"
     end
 
     def self.post_install(config, provision_vars)
-      Utils::provision_script(config, 'post_install', "${HOME}/Projects/my-custom-provisioner/install/install-utils.sh")
+      super
+      config.vm.provision "shell", inline: "echo 'runs after the `install` step'"
     end
 
-    def self.pre_configure(config, provision_vars)
-      Utils::provision_script(config, 'pre_configure', "${HOME}/Projects/my-custom-provisioner/configure/configure-desktop.sh")
+    def self.configure(config, provision_vars)
+      super
+      config.vm.provision "shell", inline: "echo 'overrides the `configure` step, executes the existing `configure` step before this'"
     end
 
-    def self.post_cleanup(config, provision_vars)
-      config.vm.provision "shell", inline: "echo 'Cleaning up' && ${HOME}/cleanup.sh"
+    def self.cleanup(config, provision_vars)
+      config.vm.provision "shell", inline: "echo 'overrides the `cleanup` step, executes the existing `cleanup` step after this'"
+      super
     end
   end
 end
