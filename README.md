@@ -94,7 +94,7 @@ you can manually add to this file. These are listed below:
     - Steps *must* be defined in a nested Ruby module under `Provision.Steps`.
     - Steps may be defined in a method named: `pre_<stage>`, or `post_<stage>`, where `<stage>` is one of: `prepare`, `install`, `configure`, or `cleanup`.
     - The Vagrant config is passed to these methods as the first argument, and a hash containing provisioning variables is passed as the second argument.
-    - For examples, see source codes for the default steps [here]() and an sample external steps [here]()
+    - For examples, see source codes for the default steps [here](src/steps.rb) and sample external steps [here](https://github.com/xtangle/my-configs/blob/master/src/steps.rb).
 
 An example of these 'extra' configs is shown below:
 
@@ -112,18 +112,16 @@ The contents of the file `"../my-configs/src/steps.rb"` can be for example:
 ```ruby
 module Provision
   module Steps
-    MY_CONFIGS_SCRIPTS_DIR = '${HOME}/Projects/my-configs/scripts'
-
     def self.pre_prepare(config, provision_vars)
-      Utils::provision_file(config, '~/.some-config', '~/.some-config')
+      Utils::provision_file(config, '~/.rubyrc', '~/.rubyrc')
     end
 
     def self.post_install(config, provision_vars)
-      Utils::provision_script(config, 'post_install', "#{MY_CONFIGS_SCRIPTS_DIR}/install/install-utils.sh")
+      Utils::provision_script(config, 'post_install', "${HOME}/Projects/my-custom-provisioner/install/install-utils.sh")
     end
 
     def self.pre_configure(config, provision_vars)
-      Utils::provision_script(config, 'pre_configure', "#{MY_CONFIGS_SCRIPTS_DIR}/configure/configure-desktop.sh")
+      Utils::provision_script(config, 'pre_configure', "${HOME}/Projects/my-custom-provisioner/configure/configure-desktop.sh")
     end
 
     def self.post_cleanup(config, provision_vars)
