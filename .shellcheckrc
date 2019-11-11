@@ -1,2 +1,4 @@
+shell=bash
+source-path=scripts
 disable=SC1090
 disable=SC1091
