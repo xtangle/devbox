@@ -62,13 +62,6 @@ Vagrant.configure("2") do |config|
   Provision::Runner::run(:prepare, config, provision_vars)
   Provision::Runner::run(:install, config, provision_vars)
   Provision::Runner::run(:configure, config, provision_vars)
+  Provision::Runner::run(:cleanup, config, provision_vars)
 
-  if vm_config.restart
-    config.trigger.after :up, :provision do |trigger|
-      trigger.ruby do
-        Provision::Manage::configure_resolution(vm_config.vm_name, display_info)
-        exec "vagrant reload --no-provision"
-      end
-    end
-  end
 end

@@ -56,15 +56,9 @@ module Provision
     end
 
     def self.configure(config, provision_vars)
-      # config.vm.provision "shell", privileged: false, path: "scripts/provision.sh"
-      #
-      # provision_vars['extra_scripts'].each do |path|
-      #   config.vm.provision "shell", privileged: false, path: path
-      # end
     end
 
     def self.cleanup(config, provision_vars)
-
     end
   end
 end

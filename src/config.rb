@@ -59,9 +59,8 @@ module Provision
       video_memory = ask('What is the video memory in MB?', '128').to_i
       monitor_count = ask('What is the number of monitors?', '1').to_i
       timezone = ask('What is the timezone? (eg. America/Toronto)', 'UTC')
-      restart = yesno('Restart after provisioning?', 'yes')
 
-      Config.new(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, restart)
+      Config.new(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone)
     end
     private_class_method :get_config_from_user
 
@@ -87,9 +86,9 @@ module Provision
 
     class Config
       attr_reader :serial_version_id, :vm_name, :base_memory, :disk_space, :processors, :video_memory, :monitor_count,
-                  :timezone, :restart, :extra_mounts, :external_steps
+                  :timezone, :extra_mounts, :external_steps
 
-      def initialize(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone, restart)
+      def initialize(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone)
         @serial_version_id = nil
         @vm_name = vm_name
         @base_memory = base_memory
@@ -98,7 +97,6 @@ module Provision
         @video_memory = video_memory
         @monitor_count = monitor_count
         @timezone = timezone
-        @restart = restart
         @extra_mounts = {}
         @external_steps = []
 
