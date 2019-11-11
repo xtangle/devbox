@@ -4,14 +4,14 @@
 
 # unused
 function clear_logs_dir {
-  if [[ -d "${LOGS_DIR}" ]]; then
-    rm -rf "${LOGS_DIR}"
+  if [[ -d "${DEVBOX_LOGS_DIR}" ]]; then
+    rm -rf "${DEVBOX_LOGS_DIR}"
   fi
 }
 
 # unused
 function print_results {
-  local failed_installs=$(grep -P ",(?!0)\d*$" "${RESULTS_FILE}" | cut -d',' -f1)
+  local failed_installs=$(grep -P ",(?!0)\d*$" "${DEVBOX_RESULTS_FILE}" | cut -d',' -f1)
   local -i status
   if [[ -z "${failed_installs}" ]]; then
     echo ">> All scripts ran successfully"
@@ -21,14 +21,14 @@ function print_results {
     echo "${failed_installs}" > /dev/stderr
     status=1
   fi
-  echo ">> Logs can be found at ${LOGS_DIR}"
-  echo ">> Summary of results can be found at ${RESULTS_FILE}"
+  echo ">> Logs can be found at ${DEVBOX_LOGS_DIR}"
+  echo ">> Summary of results can be found at ${DEVBOX_RESULTS_FILE}"
   return ${status}
 }
 
 function prepare_results_file {
-  if [[ ! -f "${RESULTS_FILE}" ]]; then
-    echo 'Script path,SHA1 checksum,Timestamp,Status code' > "${RESULTS_FILE}"
+  if [[ ! -f "${DEVBOX_RESULTS_FILE}" ]]; then
+    echo 'Step,Script path,SHA1 checksum,Timestamp,Status code' > "${DEVBOX_RESULTS_FILE}"
   fi
 }
 
@@ -37,8 +37,8 @@ function run {
   local script_path="${2}"
   local script_name="$(basename "${script_path}" | cut -f 1 -d '.')"
   local script_tag="[${step}] [${script_name}]"
-  local log_path="${LOGS_DIR}/${step}/${script_name%.*}.log"
-  local version="$(sha1sum "${script_path}" | cut -d' ' -f1)"
+  local log_path="${DEVBOX_LOGS_DIR}/${step}/${script_name%.*}.log"
+  local script_hash="$(sha1sum "${script_path}" | cut -d' ' -f1)"
   local args=( "${@:3}" )
 
   prepare_results_file
@@ -47,6 +47,6 @@ function run {
   "${script_path}" "${args[@]}" > "${log_path}" 2>&1
   local status=${?}
   local timestamp=$(TZ=${PROVISION_TIMEZONE:-$(cat /etc/timezone)} date +'%Y-%m-%d %H:%M:%S %Z%z')
-  echo "${script_path},${version},${timestamp},${status}" >> "${RESULTS_FILE}"
+  echo "${step},${script_path},${script_hash},${timestamp},${status}" >> "${DEVBOX_RESULTS_FILE}"
   echo ">> ${script_tag} Script exited with status code ${status}" > "$( (( status == 0 )) && echo /dev/stdout || echo /dev/stderr )"
 }

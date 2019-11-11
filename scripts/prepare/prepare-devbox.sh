@@ -2,9 +2,10 @@
 
 set -e
 
-# bootstraps the bootstrap script to be available in the path
+# bootstraps the devbox bootstrap script to be available in the path
+bin_dir="\${HOME}/.provision/scripts/bin"
 mkdir -p "${HOME}/.rc"
 cat > "${HOME}/.rc/devbox" << EOL
-export PATH="\${HOME}/.provision/scripts/bin:\${PATH}"
+export PATH="${bin_dir}:\${PATH}"
 EOL
 source_in_profile "\${HOME}/.rc/devbox"

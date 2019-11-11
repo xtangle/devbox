@@ -1,5 +1,3 @@
-require_relative './platform'
-
 module Provision
   module Utils
     def self.get_display_info
