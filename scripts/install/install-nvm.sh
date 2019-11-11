@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+source bootstrap-devbox
 
 # load nvm if exists
 load "${HOME}/.nvm/nvm.sh"

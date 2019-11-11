@@ -24,7 +24,6 @@ function load {
   force=$( [[ "${1}" == "-f" ]] && echo 1 || echo 0 ); (( force )) && shift
   file="${1}"
   if (( force )) || [[ -s "${file}" ]]; then
-    # shellcheck source=/dev/null
     . "${file}"
   fi
 }
@@ -51,7 +50,7 @@ function release_lock_file {
     i=0
     while sudo kill "${pid}" 2>/dev/null; do 
       sleep 1
-      let i=i+1
+      (( i++ ))
       if (( i >= 30 )); then
         if (( force )); then
           echo ">> warning: process could not be killed in ${i} seconds, killing process forcefully"
@@ -79,8 +78,7 @@ function source_in_profile {
 }
 
 function load_provision_vars {
-  # shellcheck source=/dev/null
-  source "${HOME}/devbox/out/provision-vars.sh"
+  source "${HOME}/.load-provision-vars.sh"
 }
 
 export -f backup

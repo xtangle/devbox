@@ -3,7 +3,7 @@
 *.retry
 *.log
 .vagrant/
-bin/
+# bin/
 logs/
 out/
 

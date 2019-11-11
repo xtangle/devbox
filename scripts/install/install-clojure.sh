@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+source bootstrap-devbox
 
 # note: this script requires the following dependencies to be installed first:
 # - install-java.sh

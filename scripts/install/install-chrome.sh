@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+source bootstrap-devbox
 
 if ! installed google-chrome; then
   echo ">> Installing google-chrome"
@@ -11,7 +12,4 @@ if ! installed google-chrome; then
 
   # set google-chrome as the default web browser
   sudo update-alternatives --set x-www-browser /usr/bin/google-chrome-stable
-
-  # add desktop icon
-  cp -f "${DEVBOX_FILES}/Desktop/google-chrome.desktop" "${HOME}/Desktop"
 fi

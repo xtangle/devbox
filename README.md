@@ -3,38 +3,35 @@
 [![Build Status](https://img.shields.io/travis/com/xtangle/devbox.svg)](https://travis-ci.com/xtangle/devbox)
 
 This repository contains Vagrantfile and scripts to set up a local development Virtual Machine running in Linux.
-The machine runs on the [Ubuntu 18.04.1 LTS (Bionic Beaver)](http://releases.ubuntu.com/18.04.1/) distro with a minimal
-[Lubuntu](https://lubuntu.net/) desktop environment. It uses the official [ubuntu/bionic64](https://app.vagrantup.com/ubuntu/boxes/bionic64) box 
+The machine runs on a bare-bones [Ubuntu 19.10 (Eoan Ermine)](http://releases.ubuntu.com/19.10/) distro with a minimal
+[KDE Plasma](https://kde.org/plasma-desktop) desktop environment. It uses the official vagrant box 
 from Ubuntu Cloud Images as the base image.
 
 ## What's Installed?
 
-In addition to the default software bundled with Ubuntu, the provisioning process installs the latest versions of the following:
+In addition to the default software bundled with KDE Plasma desktop, the provisioning process installs the latest versions of the following software:
 
-Software:
+Applications:
 
-- [Lubuntu Desktop Core](https://packages.ubuntu.com/bionic/lubuntu-core)
-- [Docker & Docker Compose](https://www.docker.com/)
 - [Git](https://git-scm.com/)
+- [Docker & Docker Compose](https://www.docker.com/)
+- [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/)
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Sublime Text](https://www.sublimetext.com/)
+- [Google Chrome](https://www.google.com/chrome/)
+- [Firefox](https://www.mozilla.org/en-US/firefox/)
 - [Confluent Platform](https://www.confluent.io/product/confluent-platform/)
 - [Tilda](https://github.com/lanoxx/tilda)
 - [Postman](https://www.getpostman.com/)
-- [Google Chrome](https://www.google.com/chrome/)
-- [Firefox](https://www.mozilla.org/en-US/firefox/)
 - [LibreOffice](https://www.libreoffice.org/)
 - [Evince](https://wiki.gnome.org/Apps/Evince)
 - [Viewnior](http://siyanpanayotov.com/project/viewnior)
-- [Sublime Text](https://www.sublimetext.com/)
 - [Meld](http://meldmerge.org/)
 - [DBeaver CE](https://dbeaver.io/)
-- [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/)
-- [Visual Studio Code](https://code.visualstudio.com/)
 - [TeXstudio](https://www.texstudio.org/)
 - [Remmina](https://remmina.org/)
-- Additional Fonts: 
-    - [Input](http://input.fontbureau.com/)
-    - [Hack](https://sourcefoundry.org/hack/)
-    - [Roboto](https://fonts.google.com/specimen/Roboto)
+- Additional system fonts: [Input](http://input.fontbureau.com/), 
+    [Hack](https://sourcefoundry.org/hack/), and [Roboto](https://fonts.google.com/specimen/Roboto)
 
 Programming languages and tools:
 
@@ -54,43 +51,52 @@ Programming languages and tools:
 - [Elixir](https://elixir-lang.org/)
 - [LaTeX](https://www.latex-project.org/) (via [TeX Live](https://www.tug.org/texlive/))
 
-Most, if not all listed software will be upgraded to their most recent version upon a `vagrant up` (provisioning is done by default).
+All listed software will be upgraded to their most recent version as part of the provisioning process:
+    `vagrant up --provision`
 
 ## Prerequisites
 
 - [Vagrant 2.0.0+](https://www.vagrantup.com/downloads.html) installed.
-- [VirtualBox 5.2.0+](https://www.virtualbox.org/wiki/Downloads) with the Extension Pack installed.
+- [VirtualBox 6.0.0+](https://www.virtualbox.org/wiki/Downloads) with the Extension Pack installed.
 - VBoxManage is installed
-   - This should already be the case if VirtualBox is installed using the default settings.
-   - On Windows, it suffices for the file `C:\Program Files\Oracle\VirtualBox\VBoxManage.exe` to exist.
-   - On Linux or Mac, the command `vboxmanage` needs to be in your PATH.
-- Ability to create symbolic links inside shared folders, see [instructions](#enable-creation-of-symlinks-in-shared-folders) below.
+    - This should already be the case if VirtualBox is installed using the default settings.
+    - On Windows, the file `C:\Program Files\Oracle\VirtualBox\VBoxManage.exe` should already exist. Otherwise, `VBoxManage.exe` should be part of the PATH.
+    - On Linux or Mac, the command `vboxmanage` should to be in your PATH.
+- Additionally, the host user should have the ability to create symbolic links inside shared folders, see [instructions](#enable-creation-of-symlinks-in-shared-folders) below. This should only be relevant on a Windows host machine.
 
 ## Getting Started
 
 1. Ensure all prerequisites have been met (see previous section).
-1. Clone this repo to your host machine. 
-   - A shared folder will be created linking this directory from the host machine to `${HOME}/vagrant` in the guest machine. 
-1. Run the command `vagrant up --provision` from the directory of the cloned repository and answer the questions to the interactive prompts.
-   - Your answers will be saved in the `.vm-config.yaml` file. This configuration file will be used in future provisions unless the configuration file is outdated or deleted. 
-   - Tip: to force prompting the configuration again, either rename or delete the `.vm-config.yaml` file.
+1. Clone this repo to your host machine.  
+1. Run the command `vagrant up --provision` from the directory of the cloned repository. 
+    - Answer the interactive questions as they come up.
+    - Responses to the answers will be saved in the `.vm-config.yaml` file. This configuration file will be used in future provisions unless it is either outdated or deleted. 
+    - Tip: to force prompting the configuration again, either rename or delete the `.vm-config.yaml` file.
+1. Review the contents in `.vm-config.yaml` file. You will notice there will be a couple of extra properties there that were not asked, 
+    such as `extra_mounts` and `external_steps`. You have the option to configure them now by editing the file directly. They are covered in detail in the [VM Configs](#vm-configs) section.
+1. Run the command `vagrant up --provision` again. This time, you will not be asked to provide the configuration again.
+    - Provisioning will now begin. A summary of the each step will be printed to the console. More detailed output information such as logs are available in the `out` directory.
 1. (Optional) Create a taskbar item to run `vagrant reload` when executed. This can be done by running the batch file `taskbar/CreateTaskbarItem.cmd`.
    - Note: The `CreateTaskbarItem.cmd` script no longer adds a taskbar icon automatically. Once the script is run, you have to select the created file `taskbar/tmp/TaskbarItem.lnk` and pin it to the taskbar manually.
 
 ## VM Configs
 
-As mentioned, the `.vm-config.yaml` file stores configuration for your provisioned VM. This file is updated every time you've
-answered questions during initial prompting on `vagrant up`. In addition to the questions asked, there are additional configurations
+The `.vm-config.yaml` file stores configuration for your provisioned VM. This file is updated every time you've
+answered questions during initial setup on provisioning. In this section, we will describe additional properties
 you can manually add to this file. These are listed below:
 
-- `extra_mounts` - An object with mount names as keys and mount paths as values. 
-    - The mount name is a unique identifier of the mount and specifies the mount point in the guest machine (mounts will be mounted to `${HOME}/<name>`).
+- `extra_mounts` - An object with mount names as keys and mount paths as values. Mounts created this way will automatically be configured so that the `vagrant` user have full access to the contents in the mount.
+    - The mount name is a unique identifier of the mount and specifies the mount point in the guest machine (mount points will be created on `${HOME}/<name>`).
     - The mount path is a directory on the host machine. It can be an absolute path or a path relative to the directory containing the `Vagrantfile`.
     
-- `extra_scripts` - A list of strings containing paths (on the host machine) to additional shell scripts to be run after the main provisioning 
-    script has successfully completed. The paths can be an absolute path or a path relative to the directory containing the `Vagrantfile`. 
+- `external_steps` - A list of strings containing paths (on the host machine) to additional ruby files containing additional provisioning steps to be run.
+    The paths can be an absolute path or a path relative to the directory containing the `Vagrantfile`. 
+    - Steps *must* be defined in a nested Ruby module under `Provision.Steps`.
+    - Steps may be defined in a method named: `pre_<stage>`, or `post_<stage>`, where `<stage>` is one of: `prepare`, `install`, `configure`, or `cleanup`.
+    - The Vagrant config is passed to these methods as the first argument, and a hash containing provisioning variables is passed as the second argument.
+    - For examples, see source codes for the default steps [here]() and an sample external steps [here]()
 
-An example of these configs in action:
+An example of these 'extra' configs is shown below:
 
 ```yaml
 extra_mounts:
@@ -98,7 +104,33 @@ extra_mounts:
   C_Drive: "C:/"
   D_Drive: "D:/"
 extra_scripts:
-  - "../my-configs/scripts/provision.sh"
+  - "../my-configs/src/steps.rb"
+```
+
+The contents of the file `"../my-configs/src/steps.rb"` can be for example:
+
+```ruby
+module Provision
+  module Steps
+    MY_CONFIGS_SCRIPTS_DIR = '${HOME}/Projects/my-configs/scripts'
+
+    def self.pre_prepare(config, provision_vars)
+      Utils::provision_file(config, '~/.some-config', '~/.some-config')
+    end
+
+    def self.post_install(config, provision_vars)
+      Utils::provision_script(config, 'post_install', "#{MY_CONFIGS_SCRIPTS_DIR}/install/install-utils.sh")
+    end
+
+    def self.pre_configure(config, provision_vars)
+      Utils::provision_script(config, 'pre_configure', "#{MY_CONFIGS_SCRIPTS_DIR}/configure/configure-desktop.sh")
+    end
+
+    def self.post_cleanup(config, provision_vars)
+      config.vm.provision "shell", inline: "echo 'Cleaning up' && ${HOME}/cleanup.sh"
+    end
+  end
+end
 ```
 
 ## Enable creation of symlinks in shared folders

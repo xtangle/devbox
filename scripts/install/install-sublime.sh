@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+source bootstrap-devbox
 
 if ! installed subl; then
   not_installed_before="true"
@@ -17,7 +18,4 @@ sudo update-alternatives --install /usr/bin/editor editor /usr/bin/subl 0
 if [[ -n "${not_installed_before}" ]]; then
   # set sublime as the default editor
   sudo update-alternatives --set editor /usr/bin/subl
-
-  # add desktop icon
-  cp -f "${DEVBOX_FILES}/Desktop/sublime_text.desktop" "${HOME}/Desktop"
 fi

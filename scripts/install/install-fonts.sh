@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+source bootstrap-devbox
 
 # installs Input fonts from http://input.fontbureau.com/
 if ! fc-list | contains "Input-Font"; then

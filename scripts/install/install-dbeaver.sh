@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+source bootstrap-devbox
 
 if ! installed dbeaver; then
   echo ">> Installing dbeaver"

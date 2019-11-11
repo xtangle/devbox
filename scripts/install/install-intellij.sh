@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+source bootstrap-devbox
 
 if [[ ! -d "${HOME}/idea-IU" ]]; then
   installed_version=''
@@ -42,7 +43,4 @@ if [[ -z "${installed_version}" ]] || verlt "${installed_version}" "${latest_min
   # add menu entry
   mkdir -p "${HOME}/.local/share/applications"
   cp -f "${DEVBOX_FILES}/Menu/jetbrains-idea.desktop" "${HOME}/.local/share/applications"
-
-  # add desktop icon
-  cp -f "${DEVBOX_FILES}/Desktop/jetbrains-idea.desktop" "${HOME}/Desktop"
 fi

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+source bootstrap-devbox
 
 # install haskell-platform
 sudo -E apt-get -qy install haskell-platform hoogle
