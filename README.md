@@ -76,8 +76,8 @@ All listed software will be upgraded to their most recent version as part of the
     such as `extra_mounts` and `extra_steps`. You have the option to configure them now by editing the file directly. They are covered in detail in the [VM Configs](#vm-configs) section.
 1. Run the command `vagrant up --provision` again. This time, you will not be asked to provide the configuration again.
     - Provisioning will now begin. A summary of the each step will be printed to the console. More detailed output information such as logs are available in the `out` directory.
-1. (Optional) Create a taskbar item to run `vagrant reload` when executed. This can be done by running the batch file `taskbar/CreateTaskbarItem.cmd`.
-   - Note: The `CreateTaskbarItem.cmd` script no longer adds a taskbar icon automatically. Once the script is run, you have to select the created file `taskbar/tmp/TaskbarItem.lnk` and pin it to the taskbar manually.
+1. (Optional) Create a taskbar item to update provisioning repositories and run `vagrant reload` when executed. 
+    This can be done by running the batch file `taskbar/CreateTaskbarItems.cmd` and pinning the link created in `taskbar/tmp` to the taskbar.
 
 ## VM Configs
 
