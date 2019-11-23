@@ -56,5 +56,9 @@ module Provision
       Utils::provision_script(config, 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-dbeaver.sh")
       Utils::provision_script(config, 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-remmina.sh")
     end
+
+    def self.cleanup(config, provision_vars)
+      Utils::provision_script(config, 'cleanup', "#{DEVBOX_SCRIPTS_DIR}/cleanup/cleanup-system.sh")
+    end
   end
 end
