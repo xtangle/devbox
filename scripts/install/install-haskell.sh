@@ -10,7 +10,7 @@ sudo -E apt-get -qy install haskell-platform hoogle
 if ! installed stack; then
   echo ">> Installing Haskell stack"
   wget -qO- https://get.haskellstack.org/ | sh
-else
-  echo ">> Updating Haskell stack"
-  stack upgrade
+#else
+#  echo ">> Updating Haskell stack"
+#  stack upgrade
 fi
