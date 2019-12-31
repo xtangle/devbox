@@ -12,8 +12,8 @@ module Provision
       config.vm.provision "shell", inline: Vars::prepare_provision_vars(provision_vars)
 
       Utils::provision_file(config, '~/.git-credentials', '~/.git-credentials')
-      Utils::provision_script(config, 'devbox', 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-devbox.sh")
-      Utils::provision_script(config, 'devbox', 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-mounts.sh")
+      Utils::provision_script(config, 'devbox', 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-devbox.sh", 'always')
+      Utils::provision_script(config, 'devbox', 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-mounts.sh", 'always')
       Utils::provision_script(config, 'devbox', 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-system.sh")
       Utils::provision_script(config, 'devbox', 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-packages.sh", 'always')
       Utils::provision_script(config, 'devbox', 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-utils.sh")
@@ -21,7 +21,7 @@ module Provision
     end
 
     def self.install(config, provision_vars)
-      Utils::provision_script(config, 'devbox', 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-kde.sh")
+      Utils::provision_script(config, 'devbox', 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-desktop.sh")
       Utils::provision_script(config, 'devbox', 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-nvm.sh")
       Utils::provision_script(config, 'devbox', 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-yarn.sh")
       Utils::provision_script(config, 'devbox', 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-java.sh")

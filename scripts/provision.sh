@@ -6,6 +6,7 @@ set -e
 export DEBIAN_FRONTEND=noninteractive
 export DEBIAN_PRIORITY=critical
 
+# shellcheck disable=SC1090
 source "${HOME}/.provision/scripts/bootstrap/bootstrap.sh"
 
 run "${@}"
