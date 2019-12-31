@@ -96,7 +96,7 @@ function kill_pids {
 function run_in_background {
   cmd="${1}"
   # shellcheck disable=2086
-  nohup ${cmd} >/dev/null 2>&1 &
+  nohup ${cmd} & disown
 }
 
 function source_in_profile {

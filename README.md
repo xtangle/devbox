@@ -30,8 +30,6 @@ Applications:
 - [DBeaver CE](https://dbeaver.io/)
 - [TeXstudio](https://www.texstudio.org/)
 - [Remmina](https://remmina.org/)
-- Additional system fonts: [Input](http://input.fontbureau.com/), 
-    [Hack](https://sourcefoundry.org/hack/), and [Roboto](https://fonts.google.com/specimen/Roboto)
 
 Programming languages and tools:
 

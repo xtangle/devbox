@@ -21,12 +21,12 @@ module Provision
       FileUtils.rm_rf(Dir.glob('out/*')) if File.directory?('out')
     end
 
-    def self.provision_script(config, step, script)
-      config.vm.provision "shell", privileged: false, path: "scripts/provision.sh", args: [step, script]
+    def self.provision_script(config, context, step, script, run = 'once')
+      config.vm.provision "shell", privileged: false, path: "scripts/provision.sh", args: [context, step, script], run: run
     end
 
-    def self.provision_file(config, host_src, guest_dest)
-      config.vm.provision "file", source: host_src, destination: guest_dest if File.exist?(File.expand_path(host_src))
+    def self.provision_file(config, host_src, guest_dest, run = 'once')
+      config.vm.provision "file", source: host_src, destination: guest_dest, run: run if File.exist?(File.expand_path(host_src))
     end
   end
 end

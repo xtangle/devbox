@@ -28,18 +28,19 @@ function print_results {
 
 function prepare_results_file {
   if [[ ! -f "${DEVBOX_RESULTS_FILE}" ]]; then
-    echo 'Step,Script path,SHA1 checksum,Timestamp,Status code' > "${DEVBOX_RESULTS_FILE}"
+    echo 'Context,Step,Script path,SHA1 checksum,Timestamp,Status code' > "${DEVBOX_RESULTS_FILE}"
   fi
 }
 
 function run {
-  local step="${1}"
-  local script_path="${2}"
+  local context="${1}"
+  local step="${2}"
+  local script_path="${3}"
   local script_name="$(basename "${script_path}" | cut -f 1 -d '.')"
-  local script_tag="[${step}] [${script_name}]"
-  local log_path="${DEVBOX_LOGS_DIR}/${step}/${script_name%.*}.log"
+  local script_tag="[${context}] [${step}] [${script_name}]"
+  local log_path="${DEVBOX_LOGS_DIR}/${context}/${step}/${script_name%.*}.log"
   local script_hash="$(sha1sum "${script_path}" | cut -d' ' -f1)"
-  local args=( "${@:3}" )
+  local args=( "${@:4}" )
 
   prepare_results_file
   mkdir -p "$(dirname "${log_path}")"
@@ -47,6 +48,6 @@ function run {
   "${script_path}" "${args[@]}" > "${log_path}" 2>&1
   local status=${?}
   local timestamp=$(TZ=${PROVISION_TIMEZONE:-$(cat /etc/timezone)} date +'%Y-%m-%d %H:%M:%S %Z%z')
-  echo "${step},${script_path},${script_hash},${timestamp},${status}" >> "${DEVBOX_RESULTS_FILE}"
+  echo "${context},${step},${script_path},${script_hash},${timestamp},${status}" >> "${DEVBOX_RESULTS_FILE}"
   echo ">> ${script_tag} Script exited with status code ${status}" > "$( (( status == 0 )) && echo /dev/stdout || echo /dev/stderr )"
 }
