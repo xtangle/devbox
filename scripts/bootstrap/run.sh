@@ -42,6 +42,8 @@ function run {
   local script_hash="$(sha1sum "${script_path}" | cut -d' ' -f1)"
   local args=( "${@:4}" )
 
+  rm -f "${DEVBOX_REBOOT_PROMPT_FILE}"
+
   prepare_results_file
   mkdir -p "$(dirname "${log_path}")"
   echo ">> ${script_tag} Executing script..."
@@ -50,4 +52,12 @@ function run {
   local timestamp=$(TZ=${PROVISION_TIMEZONE:-$(cat /etc/timezone)} date +'%Y-%m-%d %H:%M:%S %Z%z')
   echo "${context},${step},${script_path},${script_hash},${timestamp},${status}" >> "${DEVBOX_RESULTS_FILE}"
   echo ">> ${script_tag} Script exited with status code ${status}" > "$( (( status == 0 )) && echo /dev/stdout || echo /dev/stderr )"
+
+  if [[ -f "${DEVBOX_REBOOT_PROMPT_FILE}" ]]; then
+    echo ">>"
+    echo ">> The previous script indicated that a reboot is required in order to continue."
+    echo ">> Please ignore any SSH connection error messages below and provision again."
+    echo ">>"
+    sudo shutdown now
+  fi
 }

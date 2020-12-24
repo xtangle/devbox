@@ -10,4 +10,8 @@ release_lock_file -f /var/lib/dpkg/lock-frontend
 sudo -E apt-get -qy update --fix-missing
 sudo -E apt-get -qy dist-upgrade --fix-missing
 sudo -E apt-get -qy autoremove
+
+# install snap
+sudo -E apt-get -qy install snapd
 sudo -E snap refresh
+sudo -E snap install snap-store

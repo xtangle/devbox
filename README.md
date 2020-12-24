@@ -3,9 +3,8 @@
 [![Build Status](https://img.shields.io/travis/com/xtangle/devbox.svg)](https://travis-ci.com/xtangle/devbox)
 
 This repository contains Vagrantfile and scripts to set up a local development Virtual Machine running in Linux.
-The machine runs on a bare-bones [Ubuntu 19.10 (Eoan Ermine)](http://releases.ubuntu.com/19.10/) distro with a minimal
-[KDE Plasma](https://kde.org/plasma-desktop) desktop environment. It uses the official vagrant box 
-from Ubuntu Cloud Images as the base image.
+The machine runs on a clean install of [System76 Pop!_OS 20.10](https://pop.system76.com/).
+Many commonly used developer tools are installed as part of provisioning.
 
 ## What's Installed?
 
@@ -51,6 +50,8 @@ Programming languages and tools:
 
 All listed software will be upgraded to their most recent version as part of the provisioning process:
     `vagrant up --provision`
+
+If you do not want to install a particular software, you can comment it out in the [steps.rb](src/steps.rb) file.
 
 ## Prerequisites
 
@@ -113,22 +114,22 @@ The contents of the file `"../my-configs/src/steps.rb"` can be for example:
 ```ruby
 module Provision
   module MySteps
-    def self.pre_prepare(config, provision_vars)  
+    def pre_prepare(config, provision_vars)  
       super
       config.vm.provision "shell", inline: "echo 'runs before the `prepare` step'"
     end
 
-    def self.post_install(config, provision_vars)
+    def post_install(config, provision_vars)
       super
       config.vm.provision "shell", inline: "echo 'runs after the `install` step'"
     end
 
-    def self.configure(config, provision_vars)
+    def configure(config, provision_vars)
       super
       config.vm.provision "shell", inline: "echo 'overrides the `configure` step, executes the existing `configure` step before this'"
     end
 
-    def self.cleanup(config, provision_vars)
+    def cleanup(config, provision_vars)
       config.vm.provision "shell", inline: "echo 'overrides the `cleanup` step, executes the existing `cleanup` step after this'"
       super
     end

@@ -54,11 +54,11 @@ module Provision
     def self.get_config_from_user
       vm_name = ask('What is the name of this VM?', 'devbox')
       base_memory = ask('What is the base machine memory in MB?', '8192').to_i
-      disk_space = ask('What is the virtual hard drive size in GB?', '50').to_i
+      disk_space = ask('What is the virtual hard drive size in GB?', '100').to_i
       processors = ask('What is the number of processors?', '4').to_i
       video_memory = ask('What is the video memory in MB?', '128').to_i
       monitor_count = ask('What is the number of monitors?', '1').to_i
-      timezone = ask('What is the timezone? (eg. America/Toronto)', 'UTC')
+      timezone = ask('What is the timezone? (eg. America/Toronto)', '', 'system default')
 
       Config.new(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone)
     end
@@ -128,6 +128,10 @@ module Provision
 
       def validate
         failed_msg = 'Error: vm-config file validation failed'
+
+        if disk_space < 100
+          abort("#{failed_msg}. Devbox requires at least 100GB of disk space, please increase the number in the configuration and try again")
+        end
 
         extra_mounts.each do |name, path|
           if name.nil? || name.empty?

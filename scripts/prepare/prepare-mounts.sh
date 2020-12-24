@@ -19,7 +19,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart rc-local.service
 
 echo ">> Waiting for rc-local.service to finish mounting..."
-sleep 5
+sleep 6
 
 if [[ -d "${HOME}/.provision/scripts" ]]; then
   echo ">> Successfully mounted shared folders"
@@ -27,3 +27,6 @@ else
   echo ">> Error: Unable to mount shared folders"
   exit 1
 fi
+
+# view logs from current boot
+# sudo journalctl -u rc-local.service -b

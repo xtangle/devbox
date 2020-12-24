@@ -31,8 +31,9 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.box = "ubuntu/eoan64"
+  config.vm.box = "xtangle/pop-os_20.10"
   config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.network "forwarded_port", guest: 4200, host: 4200
   config.vm.network "forwarded_port", guest: 8080, host: 8080
   config.vm.boot_timeout = 600
   config.ssh.forward_agent = true
@@ -49,11 +50,11 @@ Vagrant.configure("2") do |config|
     vb.customize ['modifyvm', :id, '--vram', vm_config.video_memory]
     vb.customize ['modifyvm', :id, '--monitorcount', vm_config.monitor_count]
     vb.customize ['modifyvm', :id, '--hwvirtex', 'on']
-    vb.customize ['modifyvm', :id, '--graphicscontroller', 'vboxsvga']
-    vb.customize ['modifyvm', :id, '--accelerate3d', 'on']
+    vb.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
+    vb.customize ['modifyvm', :id, '--accelerate3d', 'off']
     vb.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
     vb.customize ['modifyvm', :id, '--draganddrop', 'bidirectional']
-    vb.customize ['modifyvm', :id, '--audioin', 'on']
+    vb.customize ['modifyvm', :id, '--audioin', 'off']
     vb.customize ['modifyvm', :id, '--audioout', 'on']
     vb.customize ['modifyvm', :id, '--usbxhci', 'on']
     vb.customize ['modifyvm', :id, '--uartmode1', 'file', File.join(Dir.pwd, 'out/ubuntu-cloudimg-console.log')]

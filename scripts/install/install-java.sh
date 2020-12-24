@@ -4,11 +4,11 @@ set -e
 source bootstrap-devbox
 
 # install java jdk
-if ! installed java; then
+#if ! installed java; then
   # install Ubuntu's default jdk
-  sudo -E add-apt-repository -y ppa:openjdk-r/ppa
-  sudo -E apt-get -qy update
-fi
+#  sudo -E add-apt-repository -y ppa:openjdk-r/ppa
+#  sudo -E apt-get -qy update
+#fi
 sudo -E apt-get -qy install default-jdk
 
 # configure environment variables
