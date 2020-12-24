@@ -29,6 +29,7 @@ Applications:
 - [DBeaver CE](https://dbeaver.io/)
 - [TeXstudio](https://www.texstudio.org/)
 - [Remmina](https://remmina.org/)
+- [Typora](https://typora.io/)
 
 Programming languages and tools:
 

@@ -17,5 +17,5 @@ sudo update-alternatives --install /usr/bin/editor editor /usr/bin/subl 0
 
 if [[ -n "${not_installed_before}" ]]; then
   # set sublime as the default editor
-  sudo update-alternatives --set editor /usr/bin/subl
+  sudo -E update-alternatives --set editor /usr/bin/subl
 fi

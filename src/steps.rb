@@ -24,6 +24,8 @@ module Provision
 
     def self.install(config, provision_vars)
       Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-desktop.sh")
+      Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-utils.sh")
+
       Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-nvm.sh")
       Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-yarn.sh")
       Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-java.sh")
@@ -57,6 +59,7 @@ module Provision
       Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-meld.sh")
       Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-dbeaver.sh")
       Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-remmina.sh")
+      Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'install', "#{DEVBOX_SCRIPTS_DIR}/install/install-typora.sh")
     end
 
     def self.cleanup(config, provision_vars)

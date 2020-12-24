@@ -11,5 +11,5 @@ if ! installed google-chrome; then
   sudo -E apt-get -qy install google-chrome-stable
 
   # set google-chrome as the default web browser
-  sudo update-alternatives --set x-www-browser /usr/bin/google-chrome-stable
+  sudo -E update-alternatives --set x-www-browser /usr/bin/google-chrome-stable
 fi

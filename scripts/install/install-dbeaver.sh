@@ -5,7 +5,10 @@ source bootstrap-devbox
 
 if ! installed dbeaver; then
   echo ">> Installing dbeaver"
-  sudo -E add-apt-repository -y ppa:serge-rider/dbeaver-ce
-  sudo -E apt-get -qy update
-  sudo -E apt-get -qy install dbeaver-ce
+  #  sudo -E add-apt-repository -y ppa:serge-rider/dbeaver-ce
+  #  sudo -E apt-get -qy update
+  #  sudo -E apt-get -qy install dbeaver-ce
+
+  # use flatpak
+  flatpak install -y --noninteractive flathub io.dbeaver.DBeaverCommunity
 fi
