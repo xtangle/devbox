@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.box = "xtangle/pop-os_20.10"
+  config.vm.box = "xtangle/pop_os-20.10"
   config.vm.network "forwarded_port", guest: 3000, host: 3000
   config.vm.network "forwarded_port", guest: 4200, host: 4200
   config.vm.network "forwarded_port", guest: 8080, host: 8080
@@ -46,7 +46,7 @@ Vagrant.configure("2") do |config|
     vb.customize ['modifyvm', :id, '--hpet', 'on']
     vb.customize ['modifyvm', :id, '--ioapic', 'on']
     vb.customize ['modifyvm', :id, '--cpus', vm_config.processors]
-    vb.customize ['modifyvm', :id, '--memory', vm_config.base_memory]
+    vb.customize ['modifyvm', :id, '--memory', vm_config.base_memory * 1024]
     vb.customize ['modifyvm', :id, '--vram', vm_config.video_memory]
     vb.customize ['modifyvm', :id, '--monitorcount', vm_config.monitor_count]
     vb.customize ['modifyvm', :id, '--hwvirtex', 'on']

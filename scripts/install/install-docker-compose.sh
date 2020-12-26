@@ -18,7 +18,7 @@ fi
 # get latest version
 latest_version="$(curl -sS https://api.github.com/repos/docker/compose/releases/latest | jq .name -r && :)"
 if [[ -z "${latest_version}" ]]; then
-  echo ">> Unable to get latest version of docker-compose" > /dev/stderr
+  echo ">> Unable to get latest version of docker-compose" >/dev/stderr
   exit 1
 fi
 echo ">> Latest docker-compose version: ${latest_version}"

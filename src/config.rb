@@ -16,7 +16,9 @@ module Provision
         puts "(Re)configuring your VM. Answer the following questions. Press Ctrl+C anytime to quit."
         config = get_config_from_user
         File.write(CONFIG_FILE, config.to_yaml)
-        puts "Saved configuration settings to #{CONFIG_FILE}"
+        puts "Saved configuration settings to #{CONFIG_FILE}."
+        puts "If you want to mount additional folders or add extra provision steps, now is the time to add them to the 'extra_mounts' and 'extra_steps' properties, respectively."
+        puts "Once done, provision again."
         exit
       end
 
@@ -53,16 +55,21 @@ module Provision
 
     def self.get_config_from_user
       vm_name = ask('What is the name of this VM?', 'devbox')
-      base_memory = ask('What is the base machine memory in MB?', '8192').to_i
+      base_memory = ask('What is the base machine memory in GB?', '8').to_i
       disk_space = ask('What is the virtual hard drive size in GB?', '100').to_i
+      swap_size = ask('What is the swap size in GB? (0 to not use any swap)', calc_recommended_swap_size(base_memory).to_s).to_i
       processors = ask('What is the number of processors?', '4').to_i
       video_memory = ask('What is the video memory in MB?', '128').to_i
       monitor_count = ask('What is the number of monitors?', '1').to_i
       timezone = ask('What is the timezone? (eg. America/Toronto)', '', 'system default')
 
-      Config.new(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone)
+      Config.new(vm_name, base_memory, disk_space, swap_size, processors, video_memory, monitor_count, timezone)
     end
     private_class_method :get_config_from_user
+
+    def self.calc_recommended_swap_size(base_memory)
+      (base_memory <= 16) ? [base_memory, 8].min : (base_memory / 2.0).round
+    end
 
     def self.get_config_from_file
       saved_configs = load_config_file
@@ -85,14 +92,15 @@ module Provision
     private_class_method :load_config_file
 
     class Config
-      attr_reader :serial_version_id, :vm_name, :base_memory, :disk_space, :processors, :video_memory, :monitor_count,
+      attr_reader :serial_version_id, :vm_name, :base_memory, :disk_space, :swap_size, :processors, :video_memory, :monitor_count,
                   :timezone, :extra_mounts, :extra_steps
 
-      def initialize(vm_name, base_memory, disk_space, processors, video_memory, monitor_count, timezone)
+      def initialize(vm_name, base_memory, disk_space, swap_size, processors, video_memory, monitor_count, timezone)
         @serial_version_id = nil
         @vm_name = vm_name
         @base_memory = base_memory
         @disk_space = disk_space
+        @swap_size = swap_size
         @processors = processors
         @video_memory = video_memory
         @monitor_count = monitor_count
@@ -131,6 +139,10 @@ module Provision
 
         if disk_space < 100
           abort("#{failed_msg}. Devbox requires at least 100GB of disk space, please increase the number in the configuration and try again")
+        end
+
+        if disk_space < swap_size * 2
+          abort("#{failed_msg}. Swapfile size (#{swap_size}GB) is more than half the size of the total disk space (#{disk_space}GB)")
         end
 
         extra_mounts.each do |name, path|

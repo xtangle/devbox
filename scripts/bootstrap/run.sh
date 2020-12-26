@@ -17,8 +17,8 @@ function print_results {
     echo ">> All scripts ran successfully"
     status=0
   else
-    echo ">> Some scripts terminated with a failed status:" > /dev/stderr
-    echo "${failed_installs}" > /dev/stderr
+    echo ">> Some scripts terminated with a failed status:" >/dev/stderr
+    echo "${failed_installs}" >/dev/stderr
     status=1
   fi
   echo ">> Logs can be found at ${DEVBOX_LOGS_DIR}"

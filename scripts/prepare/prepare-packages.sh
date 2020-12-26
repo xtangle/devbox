@@ -15,3 +15,12 @@ sudo -E apt-get -qy autoremove
 sudo -E apt-get -qy install snapd
 sudo -E snap refresh
 sudo -E snap install snap-store
+
+# install flatpak (by default it is installed in Pop_OS! 20.04+)
+# Commented out because permissions keep getting messed up and errors about
+# "No remote refs found similar to ‘flathub’" keeps happening later
+sudo -E apt-get -qy install flatpak
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+sudo flatpak repair
+sudo flatpak update
+sudo flatpak uninstall --unused

@@ -6,7 +6,7 @@ matrix:
     - language: bash
       script:
         - shellcheck --version
-        - for file in $(find ./scripts -type f); do shellcheck --format=gcc $file; done;
+        - bash -c 'shopt -s globstar nullglob; shellcheck --format=gcc ./scripts/**/*.{sh,ksh,bash}'
     - language: ruby
       install: true
       script: true

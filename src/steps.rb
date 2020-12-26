@@ -14,12 +14,13 @@ module Provision
 
       Utils::provision_file(config, '~/.git-credentials', '~/.git-credentials')
       Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-devbox.sh", 'always')
-      Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-mounts.sh", 'always')
+      Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-mounts.sh")
       Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-disksize.sh")
+      Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-swapfile.sh")
       Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-system.sh")
+      Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-user.sh")
       Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-packages.sh")
       Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-utils.sh")
-      Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'prepare', "#{DEVBOX_SCRIPTS_DIR}/prepare/prepare-user.sh")
     end
 
     def self.install(config, provision_vars)
@@ -63,7 +64,7 @@ module Provision
     end
 
     def self.cleanup(config, provision_vars)
-      Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'cleanup', "#{DEVBOX_SCRIPTS_DIR}/cleanup/cleanup-system.sh", 'always')
+      Utils::provision_script(config, DEVBOX_CONTEXT_KEY, 'cleanup', "#{DEVBOX_SCRIPTS_DIR}/cleanup/cleanup-system.sh")
     end
   end
 end

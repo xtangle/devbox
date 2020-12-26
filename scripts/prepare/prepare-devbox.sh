@@ -11,3 +11,5 @@ cat > "${HOME}/.rc/devbox" << EOL
 export PATH="${bin_dir}:\${PATH}"
 EOL
 source_in_profile "\${HOME}/.rc/devbox"
+
+echo "Sourced the devbox bootstrap scripts to be available in the PATH"

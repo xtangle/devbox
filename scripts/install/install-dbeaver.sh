@@ -10,5 +10,5 @@ if ! installed dbeaver; then
   #  sudo -E apt-get -qy install dbeaver-ce
 
   # use flatpak
-  flatpak install -y --noninteractive flathub io.dbeaver.DBeaverCommunity
+  sudo flatpak install -y --noninteractive flathub io.dbeaver.DBeaverCommunity
 fi
