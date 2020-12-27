@@ -54,9 +54,7 @@ Vagrant.configure("2") do |config|
     vb.customize ['modifyvm', :id, '--accelerate3d', 'off']
     vb.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
     vb.customize ['modifyvm', :id, '--draganddrop', 'bidirectional']
-    vb.customize ['modifyvm', :id, '--audioin', 'off']
-    vb.customize ['modifyvm', :id, '--audioout', 'on']
-    vb.customize ['modifyvm', :id, '--usbxhci', 'on']
+    vb.customize ['modifyvm', :id, '--usbehci', 'on']
     vb.customize ['modifyvm', :id, '--uartmode1', 'file', File.join(Dir.pwd, 'out/ubuntu-cloudimg-console.log')]
     Provision::Manage::mount_folders vb, provision_vars['mounts']
   end
