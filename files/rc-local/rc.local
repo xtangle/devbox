@@ -23,8 +23,9 @@ function initialize_shared_folders {
     mount -t vboxsf -o dmode=777,fmode=777,uid=${vagrant_uid},gid=${vboxsf_gid} "${mount_name}" "${mount_path}"
 
     # unmount and remove any duplicated shared folder in home directory if they still exist
+    sleep 5
     umount "${mount_path}_1" 2>/dev/null || true
-    rm -rf "${mount_path}_1"
+    rmdir --ignore-fail-on-non-empty "${mount_path}_1"
 
     echo "success"
   done
