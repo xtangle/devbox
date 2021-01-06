@@ -5,6 +5,7 @@ source bootstrap-devbox
 
 # kill currently interfering processes
 release_lock_file -f /var/lib/dpkg/lock-frontend
+release_lock_file -f /var/lib/apt/lists/lock
 
 # update system
 sudo -E apt-get -qy update --fix-missing
@@ -22,5 +23,5 @@ sudo -E snap install snap-store
 sudo -E apt-get -qy install flatpak
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 sudo flatpak repair
-sudo flatpak update
-sudo flatpak uninstall --unused
+sudo flatpak update -y --noninteractive
+sudo flatpak uninstall --unused -y --noninteractive
